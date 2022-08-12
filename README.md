@@ -17,21 +17,33 @@ According to the Food Agriculture Organization statistical database (FAOSTAT), i
 
 ### Most important plants for humankind
 
-- Sugarcane
-- Maize
-- Paddy
-- Wheat
-- Potatoes
-- Soybeans
-- Oil palm fruit
+- Sugarcane (annual)
+- Maize (annual)
+- Paddy (annual)
+- Wheat (annual)
+- Potatoes (annual)
+- Soybeans (biennial)
+- Oil palm fruit (perennial)
 - Cassava
-- Tomatoes
-- Banana
+- Tomatoes (perennial)
+- Banana (perennial)
 - Sweet potatoes
 - Yams
 - Sorghum
-- Olive
-- Natural rubber
+- Olive (perennial)
+- Natural rubber (perennial)
 - Coffee (perennial)
 
 Source [Science Agriculture](https://scienceagri.com/16-most-important-plant-species-in-the-world/) ; [FAOSTAT](https://www.fao.org/faostat/en/#data/QCL)
+
+## Vulnerability of Food Resources to Climate
+
+### Perennial crops
+Winkler *et al* states that the vulnerability of perennial crops has not been investigated as much as that of annual crops. Mainly, because the perennial crop production is frequently constrained to areas with unique local or regional climates that are often influenced by topographic position, proximity to water bodies, or the presence of mesoscale atmospheric circulations and weather conditions such as frequent fog that modify the local climate.
+
+> The fruit crops most investigated are wine grapes, apple, cherry, citrus, peach, apricot, kiwi, mango, pear, pineapple, plum, and strawberry.
+
+Perennial crops are particularly vulnerable to cold damage at three distinct stages: (1) in the fall before the tree is adequately hardened, (2) during the winter dormant period when severe cold events can cause injury to woody tissue, and (3) during spring when temperatures slightly
+below freezing may kill flower buds following the loss of cold
+hardiness *(Raseira and Moore 1987)*.
+
