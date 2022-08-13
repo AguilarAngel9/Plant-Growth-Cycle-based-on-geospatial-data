@@ -47,3 +47,22 @@ Perennial crops are particularly vulnerable to cold damage at three distinct sta
 below freezing may kill flower buds following the loss of cold
 hardiness *(Raseira and Moore 1987)*.
 
+Source: [Winkler et al](https://www.sciencedirect.com/science/article/pii/B9780123847034002082)
+
+There are other problems that perennial crops have to face as a consequence of climate change, among which we can find winter chill fulfillment, springtime freeze risk, pollination constraints, heat stress, disease and insect pest damage.
+
+### Anuals crops
+
+Something about it
+
+## What's have been done?
+
+- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0273117722004173
+- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921005603
+- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284
+
+## Our buyer
+
+Find someone to sell it
+
+## The project as Climate AI.
