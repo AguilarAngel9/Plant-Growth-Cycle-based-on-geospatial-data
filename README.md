@@ -89,15 +89,19 @@ Source: [Wing, De Cian, Mistry](https://www.sciencedirect.com/science/article/pi
 
 
 Image detection papers
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0273117722004173
+
+
+Source: [Rahmati, Zoej, Dehkordi](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0273117722004173)
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921005603
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284
 
 ## Our buyer
 
-Find someone to sell it
+Find.
 
 ## The project as Climate AI.
 Climate AI currently has four main solutions available to its customers, 
 
 Climate assessments for perenial crops heavily rely on empirical relationships developed between climate observations and plant phenology, and, less frequently, between climate observations and yield.
+
+
