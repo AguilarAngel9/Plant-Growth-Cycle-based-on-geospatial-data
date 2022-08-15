@@ -63,6 +63,20 @@ Source: [Craufurd and Wheeler](https://pubmed.ncbi.nlm.nih.gov/19505929/#:~:text
 ## Nonclimatic vulnerabilities
 > Economic and social factors
 > Consumer demand
+## Growth phases
+At the moment of having a crop we have to analyze its growth through the phases of growth that it has. These phases are considered already once the seed is sown, that is, already when the plant was born / transplanted in the land of interest. We have that the growth phases are divided into 3: Rapid growth, Hardening and Establishment phase.
+-Establishment phase.
+Duration of 14 to 21 days to germinate and 4 to 8 weeks of initial growth.
+It is where the seed is just planted and is expected to have the first sprout, where we first ensure that the roots develop properly in case of being in a container and then be transplanted.
+-Rapid growth
+Varies according to the crop and the conditions it goes around 8 to 20 weeks.
+As it indicates, the plants (buds) grow in a very fast way, this from nutrients or chemicals applied.
+-Hardening 
+1 to 4 months depending on the crop 
+This is where the energy of the plant is focused on the growth of the stem and roots so that it has a firm foundation and has a better chance of survival. In this phase the plants are prepared to withstand different conditions (withstand stress).
+
+Besides this, it is important to consider the factors of irrigation, fertilization, spraying and temperature that the crop is receiving.
+
 
 ## What's have been done?
 
@@ -71,8 +85,13 @@ Most of the empirical climate change economics literature uses cross-section/tim
 Source: [Wing, De Cian, Mistry](https://www.sciencedirect.com/science/article/pii/S0095069621000450)
 
 
-### Image detection papers
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0273117722004173
+## Images detection
+
+It is possible to detect the products grown on farmland before the end of the growing season using time series of satellite images and with different classification models such as radom forest and super vector machine. For this, it is necessary to know the availability in precise spaces and in real time on the farmland. This information is obtained through satellite images that cover the crop field in past seasons and current time to generate planning based on data.
+
+Source: [Rahmati, Zoej, Dehkordi](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0273117722004173)
+
+Image detection papers
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921005603
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0957417412008895
@@ -87,9 +106,12 @@ Source: [Wing, De Cian, Mistry](https://www.sciencedirect.com/science/article/pi
 The main goal of this study was to determine cotton lint yield in a 73-ha irrigated field in western Tennessee using remote sensing technology.
 
 ## Our buyer
-Find someone to sell it
+
+Find.
 
 ## The project as Climate AI.
 Climate AI currently has four main solutions available to its customers: *Processors and packers*, *Seed input and chemical companies*, *Agriculture Finance* and *Retailers, Co-ops, Crop Advisors*. These products are mainly focused on predictions of the input of the crops, identification of optimal location for selected crops and forecasting of prices and demand of the product. Nevertheless, we identified that just one handle the plants lyfe cycle and, as we believe, that cares only about annual crops. Meanwhile, as *Winkler (2022)* states climate assessments for perenial crops heavily rely on empirical relationships developed between climate observations and plant phenology, and, less frequently, between climate observations and yield.
 
-So, 
+Climate assessments for perenial crops heavily rely on empirical relationships developed between climate observations and plant phenology, and, less frequently, between climate observations and yield.
+
+
