@@ -66,6 +66,20 @@ Source: [Craufurd and Wheeler](https://pubmed.ncbi.nlm.nih.gov/19505929/#:~:text
 ## Nonclimatic vulnerabilities
 > Economic and social factors
 > Consumer demand
+## Growth phases
+At the moment of having a crop we have to analyze its growth through the phases of growth that it has. These phases are considered already once the seed is sown, that is, already when the plant was born / transplanted in the land of interest. We have that the growth phases are divided into 3: Rapid growth, Hardening and Establishment phase.
+-Establishment phase.
+Duration of 14 to 21 days to germinate and 4 to 8 weeks of initial growth.
+It is where the seed is just planted and is expected to have the first sprout, where we first ensure that the roots develop properly in case of being in a container and then be transplanted.
+-Rapid growth
+Varies according to the crop and the conditions it goes around 8 to 20 weeks.
+As it indicates, the plants (buds) grow in a very fast way, this from nutrients or chemicals applied.
+-Hardening 
+1 to 4 months depending on the crop 
+This is where the energy of the plant is focused on the growth of the stem and roots so that it has a firm foundation and has a better chance of survival. In this phase the plants are prepared to withstand different conditions (withstand stress).
+
+Besides this, it is important to consider the factors of irrigation, fertilization, spraying and temperature that the crop is receiving.
+
 
 ## What's have been done?
 
