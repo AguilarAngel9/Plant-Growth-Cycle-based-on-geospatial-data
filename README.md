@@ -107,7 +107,7 @@ The main goal of this study was to determine cotton lint yield in a 73-ha irriga
 ## Our buyer
 Find.
 
-## The project as Climate AI.
+## The project as Climate Ai
 Climate AI currently has solutions available to its four main types of customers: *Processors and packers*, *Seed input and chemical companies*, *Agriculture Finance* and *Retailers, Co-ops, Crop Advisors*. Some of these products are mainly focused on predictions of the input of the crops, identification of optimal location for selected crops and forecasting of prices and demand of the product. Nevertheless, we identified that just one handles the plants life cycle and, as we believe, cares only about annual crops. Meanwhile, as *Winkler (2022)* states climate assessments for perennial crops heavily rely on empirical relationships developed between climate observations and plant phenology, and less frequently, between climate observations and yield.
 
 The project will be focused on the identification and monitoring of the perennial crop development through the lifecycle, giving special attention to the three phases seen in previously section [[Growth Phases](#Growth-phases)].
