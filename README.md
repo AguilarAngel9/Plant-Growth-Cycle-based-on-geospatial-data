@@ -51,7 +51,7 @@ Source: [Winkler et al](https://www.sciencedirect.com/science/article/pii/B97801
 
 There are other problems that perennial crops have to face as a consequence of climate change, among which we can find winter chill fulfillment, springtime freeze risk, pollination constraints, heat stress, disease and insect pest damage.
 
-### Anuals crops
+### Annuals crops
 Temperature is a major determinant of the rate of plant development and, under climate change, warmer temperatures that shorten development stages of determinate crops will most probably reduce the yield of a given variety. In that sense, crop production is inherently sensitive to variability in climate. For example, the yield of wheat declined by 5–8% per 1°C rise in mean seasonal temperature. Also, earlier crop flowering and maturity have been observed and documented in recent decades, and these are often associated with warmer (spring) temperatures.
 
 Source: [Craufurd and Wheeler](https://pubmed.ncbi.nlm.nih.gov/19505929/#:~:text=Crop%20production%20is%20inherently%20sensitive,yield%20of%20a%20given%20variety.)
