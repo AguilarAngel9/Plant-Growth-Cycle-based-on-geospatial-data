@@ -6,6 +6,8 @@
 - Li et al. (Li et al., 2018) used half-Gaussian fitting method to estimate the covering of corn crops in a farmland from its UAV image. 
 - Enciso et al. (Enciso et al., 2019) used UAV RGB images to assess the height, NDVI and area covered by three different types of tomato plants.
 - Weed mapping was done by Stroppiana et al. (Stroppiana et al., 2018) using unsupervised clustering algorithm to detect weed and non-weed areas from UAV RGB images of farmland.
+- Support Vector Machine
+
 
 ## Supervised learning tecniques
 - Malek et al. (Malek et al., 2014) proposed automatic palm tree detection algorithm to identify haphazardly planted palm oil trees from UAV RGB images of the land. In the proposed identification process, feature extraction was done using Scale-Invariant Feature Transformation (SIFT) and classification was performed by extreme learning machine classifier.

@@ -60,9 +60,6 @@ Source: [Craufurd and Wheeler](https://pubmed.ncbi.nlm.nih.gov/19505929/#:~:text
 > Perennial grains, legumes and oilseed varieties represent a paradigm shift in modern agriculture and hold great potential for truly sustainable production systems. [The Land Institute](https://landinstitute.org/our-work/perennial-crops/)
 
 
-## Nonclimatic vulnerabilities
-
-
 ## Growth phases
 At the moment of having a crop we have to analyze its growth through the phases of growth that it has. These phases are considered already once the seed is sown, that is, already when the plant was born / transplanted in the land of interest. We have that the growth phases are divided into three: Rapid growth, Hardening and Establishment phase.
 
@@ -70,9 +67,11 @@ At the moment of having a crop we have to analyze its growth through the phases 
 - **Rapid growth**. Varies according to the crop and the conditions it goes around 8 to 20 weeks. As it indicates, the plants (buds) grow in a very fast way, this from nutrients or chemicals applied.
 - **Hardening**. 1 to 4 months depending on the crop. This is where the energy of the plant is focused on the growth of the stem and roots so that it has a firm foundation and has a better chance of survival. In this phase the plants are prepared to withstand different conditions (withstand stress).
 
+TO DO: Merge our stages with the ones used in the company.
+
 Besides this, it is important to consider the factors of irrigation, fertilization, spraying and temperature that the crop is receiving.
 
-Source [Fuento es de ortiz]()
+Source [Fuentes de ortiz]()
 
 ## What's have been done?
 
@@ -94,7 +93,13 @@ These papers uses RGB images obtained by UAV to elucidate a new conjugated dense
 The principals constraints that these method has are: it does not use fully connected network, the used images has a size of 5472 × 3648 pixels, the UAV flight height was about 100 meter above the ground, the front and side overlaps were fixed to 75% and 70% respectively and the crop region in a single raw image contains only a single type of crop and other portion of the raw image is non-crop region. Finally, the proposed CNN module eliminates the use of separate feature extraction methods for learning features from candidate crop regions. The training time is significantly lesser from standard CNN, like ResNet-50, due to lesser depth of the CD-CNN and absence of fully connected layers. The experiment is carried out for a data set of five different crops and it is shown that the proposed module achieves an accuracy of 96.2%, which proves itself superior to any other standard multi-class classification techniques.
 
 
-Source [Pandey, Kamal](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921005603)
+Source [Pandey & Kamal](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921005603)
+
+### Automatic expert system for weeds/crops identification in images from maize fields
+
+Most existing strategies address the problem of green identification under the assumption that plants display a high degree of greenness, but they do not consider the fact that plants may have lost their degree of greenness for different reasons.
+
+Source [Montalvo *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0957417412008895)
 
 Papers to read: 
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284
@@ -103,8 +108,6 @@ Papers to read:
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0925231222003691
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169922002320
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169918307166
-
-The main goal of this study was to determine cotton lint yield in a 73-ha irrigated field in western Tennessee using remote sensing technology.
 
 ## Our buyer
 Find.
