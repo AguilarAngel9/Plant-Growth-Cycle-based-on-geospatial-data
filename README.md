@@ -74,7 +74,7 @@ Besides this, it is important to consider the factors of irrigation, fertilizati
 
 Source [Fuento es de ortiz]()
 
-## What's have been done?
+## What has been done?
 
 Most of the empirical climate change economics literature uses cross-section/time-series econometrics modeling to estimate the response of crop yields to weather shocks. One exception is the employ of long-differences approach to highlight that adjustments of maize and soybean cultivation in the United States (US) over time-frames of decades or more have resulted in only modest attenuation of the adverse effects of extreme heat exposures on yield losses.
 
