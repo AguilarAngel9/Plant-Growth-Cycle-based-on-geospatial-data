@@ -101,7 +101,6 @@ Source [Montalvo *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/
 
 Papers to read: 
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0957417412008895
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921004257
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0925231222003691
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169922002320

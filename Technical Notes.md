@@ -13,3 +13,6 @@
 - Malek et al. (Malek et al., 2014) proposed automatic palm tree detection algorithm to identify haphazardly planted palm oil trees from UAV RGB images of the land. In the proposed identification process, feature extraction was done using Scale-Invariant Feature Transformation (SIFT) and classification was performed by extreme learning machine classifier.
 - Chew et al. (Chew et al., 2020) identified three different food crops (banana, maize and legume) using transfer learning process from pre trained VGG-16 and ImageNet CNN modules.
 - However, the previous literatures mainly performed binary classification with the UAV RGB images i.e. segregation of crop region (viz. rice, weed and tobacco, or tree, planted area) from non-crop region.
+
+## Code propose
+The regular approaches have used convnets for semantic segmentation, in which each pixel is labeled withthe class of its enclosing object or region, but with short-comings that this work addresses.
