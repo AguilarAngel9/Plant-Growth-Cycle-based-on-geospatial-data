@@ -7,6 +7,34 @@
 - Enciso et al. (Enciso et al., 2019) used UAV RGB images to assess the height, NDVI and area covered by three different types of tomato plants.
 - Weed mapping was done by Stroppiana et al. (Stroppiana et al., 2018) using unsupervised clustering algorithm to detect weed and non-weed areas from UAV RGB images of farmland.
 - Support Vector Machine
+#Tipos de segmentación
+-Clasificación basada en el enfoque (Enfoque basado en regiones (detección de similitudes) y Enfoque basado en límites (detección de discontinuidad))
+-Clasificación basada en técnicas(Técnicas Estructurales, estocásticas e híbridas)
+las técnicas de segmentación basadas en los valores de pıxel. El segundo grupo contiene técnicas de segmentación basadas en el área. Las técnicas basadas en orillas pertenecen al tercer grupo y finalmente las técnicas basadas en la física es el cuarto grupo.
+#Técnicas de segmentación
+-SLIC
+-Segmentación basada en bordes
+-Segmentación de umbral
+-Segmentación basada en regiones
+-Segmentación de cuencas hidrográficas
+-Algoritmos de segmentación basados en agrupamiento
+-QuickShift
+-Redes neuronales para segmentación
+
+Links a revisar
+-PyObia: Segmentación y caracterización de imágenes de satélite
+https://oa.upm.es/69954/1/TFC_BOUDRIIYA_EL_HANDRIS_MOHAMMED_SALIM.pdf
+
+-Segmentación de imágenes en OpenCV https://www.delftstack.com/es/howto/python/opencv-segmentation/#:~:text=opencv%20en%20Python.-,Segmentaci%C3%B3n%20de%20im%C3%A1genes%20usando%20opencv%20en%20Python,Estas%20curvas%20se%20denominan%20contornos.
+
+-Técnicas de Segmentación en Procesamiento Digital de Imágenes (En detección de bordes se han presentado las técnicas: a) Derivada de primer orden, el operador gradiente, b) Detección de bordes utilizando derivadas de segundo orden, el operador laplaciano, y c) Técnicas de enlazado de bordes y detección de límites.s)
+https://sisbib.unmsm.edu.pe/BibVirtual/Publicaciones/risi/2009_n2/v6n2/a02v6n2.pdf
+
+-Segmentacion de imágenes de color
+https://www.scielo.org.mx/pdf/cys/v8n4/v8n4a5.pdf
+
+-Image Segmentation Techniques [Step By Step Implementation]
+https://www.upgrad.com/blog/image-segmentation-techniques/
 
 
 ## Supervised learning tecniques
