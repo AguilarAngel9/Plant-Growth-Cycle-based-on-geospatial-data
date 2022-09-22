@@ -80,7 +80,7 @@ Source: [Wing, De Cian, Mistry](https://www.sciencedirect.com/science/article/pi
 
 ### Images detection
 
-It is possible to detect the products grown on farmland before the end of the growing season using time series of satellite images and with different classification models such as radom forest and super vector machine. For this, it is necessary to know the availability in precise spaces and in real time on the farmland. This information is obtained through satellite images that cover the crop field in past seasons and current time to generate planning based on data.
+It is possible to detect the products grown on farmland before the end of the growing season using time series of satellite images and with different classification models such as random forest and support vector machine. For this, it is necessary to know the availability in precise spaces and in real time on the farmland. This information is obtained through satellite images that cover the crop field in past seasons and current time to generate planning based on data.
 
 Source: [Rahmati, Zoej, Dehkordi](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0273117722004173)
 
