@@ -7,11 +7,14 @@
 - Enciso et al. (Enciso et al., 2019) used UAV RGB images to assess the height, NDVI and area covered by three different types of tomato plants.
 - Weed mapping was done by Stroppiana et al. (Stroppiana et al., 2018) using unsupervised clustering algorithm to detect weed and non-weed areas from UAV RGB images of farmland.
 - Support Vector Machine
-##Tipos de segmentación
+
+
+
+## Tipos de segmentación
 -Clasificación basada en el enfoque (Enfoque basado en regiones (detección de similitudes) y Enfoque basado en límites (detección de discontinuidad))
 -Clasificación basada en técnicas(Técnicas Estructurales, estocásticas e híbridas)
 las técnicas de segmentación basadas en los valores de pıxel. El segundo grupo contiene técnicas de segmentación basadas en el área. Las técnicas basadas en orillas pertenecen al tercer grupo y finalmente las técnicas basadas en la física es el cuarto grupo.
-##Técnicas de segmentación
+## Técnicas de segmentación
 -SLIC
 -Segmentación basada en bordes
 -Segmentación de umbral
