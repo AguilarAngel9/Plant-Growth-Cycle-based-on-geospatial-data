@@ -16,7 +16,7 @@
 las técnicas de segmentación basadas en los valores de pıxel. El segundo grupo contiene técnicas de segmentación basadas en el área. Las técnicas basadas en orillas pertenecen al tercer grupo y finalmente las técnicas basadas en la física es el cuarto grupo.
 ## Técnicas de segmentación
 - SLIC
-El algoritmo SLIC (Simple Linear Iterative Clustering) fue introducido por R.Achanta con la finalidad de generar un algoritmo simple y eficiente a comparación de otros algoritmos (Quickshift o N cut). Lo que se realiza es que se debe de indicar un parámetro K, el cual corresponde al número de superpixels (cantidad de pixeles en los que se dividirá la imagen (no todos son del mismo tamaño pero si muy parecidos). 
+El algoritmo SLIC (Simple Linear Iterative Clustering) fue introducido por R.Achanta con la finalidad de generar un algoritmo simple y eficiente a comparación de otros algoritmos (Quickshift o N cut). Lo que se realiza es que se debe de indicar un parámetro K, el cual corresponde al número de superpixels (cantidad de pixeles en los que se dividirá la imagen (no todos son del mismo tamaño pero si muy parecidos).  A continuación se presenta un pseudocodigo obtenido de : https://oa.upm.es/69954/1/TFC_BOUDRIIYA_EL_HANDRIS_MOHAMMED_SALIM.pdf con el objetivo de ejemplificar el funcionamiento de este algoritmo.
 ![image](https://user-images.githubusercontent.com/111094131/191816901-fb7cc23f-c1b4-4a94-a8f5-6121936e7ffe.png)
 
 - Segmentación basada en bordes
