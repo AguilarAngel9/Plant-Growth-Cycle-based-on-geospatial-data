@@ -22,7 +22,7 @@ El algoritmo SLIC (Simple Linear Iterative Clustering) fue introducido por R.Ach
 -$N$ Number of image pixels.
 -$K$ Amount of superpixels
 -$N/K$ Average area of superpixels
--$S=\sqrt(\$frac{N}{K}) $ distance between centers
+-$S=\sqrt(\$frac{N}{K}$) $ distance between centers
 
 
 - Segmentación basada en bordes
