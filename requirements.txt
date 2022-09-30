@@ -3,3 +3,4 @@ earthengine-api==0.1.323
 geemap==0.16.9
 rasterio==1.3.2
 geetools==0.1.0
+scikit-image==0.19.3
