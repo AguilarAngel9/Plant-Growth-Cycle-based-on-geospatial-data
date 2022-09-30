@@ -19,10 +19,10 @@ las técnicas de segmentación basadas en los valores de pıxel. El segundo grup
 El algoritmo SLIC (Simple Linear Iterative Clustering) fue introducido por R.Achanta con la finalidad de generar un algoritmo simple y eficiente a comparación de otros algoritmos (Quickshift o N cut). Lo que se realiza es que se debe de indicar un parámetro K, el cual corresponde al número de superpixels (cantidad de pixeles en los que se dividirá la imagen (no todos son del mismo tamaño pero si muy parecidos).  A continuación se presenta un pseudocodigo obtenido de : https://oa.upm.es/69954/1/TFC_BOUDRIIYA_EL_HANDRIS_MOHAMMED_SALIM.pdf con el objetivo de ejemplificar el funcionamiento de este algoritmo.
 ![image](https://user-images.githubusercontent.com/111094131/191816901-fb7cc23f-c1b4-4a94-a8f5-6121936e7ffe.png)
 
-$N$ Number of image pixels.
-$K$ Amount of superpixels
-$N/K$ Average area of superpixels
-$S={\sqrt(\frac{N}{K})} $ distance between centers
+-$N$ Number of image pixels.
+-$K$ Amount of superpixels
+-$N/K$ Average area of superpixels
+-$S=\sqrt(\$frac{N}{K}) $ distance between centers
 
 
 - Segmentación basada en bordes
