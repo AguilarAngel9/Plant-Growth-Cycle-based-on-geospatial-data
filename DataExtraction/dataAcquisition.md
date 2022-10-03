@@ -26,3 +26,7 @@ So far, we have identified some data sets that could be useful.
 Sentinel-2 (S2) is a wide-swath, high-resolution, multispectral imaging mission with a global 5-day revisit frequency. The S2 Multispectral Instrument (MSI) samples 13 spectral bands: visible and NIR at 10 meters, red edge and SWIR at 20 meters, and atmospheric bands at 60 meters spatial resolution. It provides data suitable for assessing state and change of vegetation, soil, and water cover.
 
 ![Crop times in Germany](https://ipad.fas.usda.gov/rssiws/al/crop_calendar/images/europe_gm_calendar.png)
+
+## New Data
+In order to obtain a farm with assured data we did manual research on corn farms around the globe. The results are listed in the next spreadsheet:
+https://docs.google.com/spreadsheets/d/1w2lCI72LmMnyKiFCDlUVVUWBtV1YHIwRoVhVG5_bnZw/edit#gid=0
