@@ -55,7 +55,7 @@ def display_rgb(
     img: Union[Dict, None], 
     alpha=1., 
     figsize=(5, 5)
-    ) -> None:
+    ) -> np.array:
     """
     Display the LANDSAT images as RGB images.
     """
@@ -70,24 +70,8 @@ def display_rgb(
     plt.figure(figsize=figsize)
     plt.imshow(rgb)
 
-# def scale_to_rgb(
-#     img: Union[Dict, None],
-#     alpha: float = 1.,
-#     figsize: Tuple =(5,5)
-# ) -> np.array:
-#     """
-#     Function to scale an imahe to RGB scale [0, 255].
-#     """
-#     # Stack the vectors.
-#     img_stack_ = np.stack(
-#         [img['B4'], img['B3'], img['B2']]
-#         , axis=-1)
-    
-#     # Scale the data to [0, 255] to show as an RGB image.
-#     # Adapted from https://bit.ly/2XlmQY8. Credits to Justin Braaten.
-#     rgb_img_test = (255 * ((img_stack_[:, :, 0:3] - 100) / 3500)).astype('uint8')
-    
-#     return rgb_img_test
+    return rgb
+
 
 def convert_to_eight_bits(
     img: Union[Dict, None]
