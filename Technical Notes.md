@@ -60,15 +60,42 @@ This vegetation method is used when there is a need to identify abnormal vegetat
 ![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
 
 The calculation of the NDVI is given by :
-$\(NIR - VISR)/ (NIR + VISR) = NDVI$
+$\NDVI = (NIR - VISR)/ (NIR + VISR)$
+- NIR light reflected in the near-infrared spectrum
+- VISR light reflected in the red range of the spectrum
 
 Where the range of NDVI values per pixel should be between (-1) and (+1).
 When there is no vegetation the value is 0, non-green leaves give a value close to 0. Values close to +1 (0.8 - 0.9) indicate a large presence of green leaves. It detects vegetation that is of importance to analyse from values of 0.22 onwards.
-- Values less than or equal to 0.1 can be swept rock, sand and snow.
+- Negative values refer to the presence of water bodies ( 0 to -1)
+- Values less than or equal to 0.1 can be swept rock, sand and snow. 
 - Values between 0.2 to 0.5 can be shrubs, grassland and senescent (old) crops.
 - Values between 0.6 to 0.9 dense vegetation present
 
 Source: [NASA Earth Observatory](https://earthobservatory.nasa.gov/features/MeasuringVegetation/measuring_vegetation_2.php)
+## Soil Adjusted Vegetation Index (SAVI)
+It is used to correct NDVI for the influence of shiny oil in areas with little vegetation, i.e. it is an alternative method to NDVI specialised in young crops and arid areas. The results are equally between (-1) and (1).
+
+$SAVI = ((NIR - VISR) / (NIR + VISR + L)) x (1 + L)$
+- NIR light reflected in the near-infrared spectrum
+- VISR light reflected in the red range of the spectrum
+- L correction factor for soil brightness
+The L value is given by the conditions;
+- L=1 in areas with moderate vegatative
+- L=0.5 in areas with very high vegetation
+- L=0 is equal to NDVI method
+
+Source: [USGS](https://www.usgs.gov/landsat-missions/landsat-soil-adjusted-vegetation-index)
+
+## (GCI)
+
+
+
+
+
+
+
+
+
 
 
 ## Supervised learning tecniques
