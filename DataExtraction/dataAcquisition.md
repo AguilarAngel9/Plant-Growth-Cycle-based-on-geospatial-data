@@ -28,5 +28,5 @@ Sentinel-2 (S2) is a wide-swath, high-resolution, multispectral imaging mission 
 ![Crop times in Germany](https://ipad.fas.usda.gov/rssiws/al/crop_calendar/images/europe_gm_calendar.png)
 
 ## New Data
-In order to obtain a farm with assured data we did manual research on corn farms around the globe. The results are listed in the next spreadsheet:
+In order to obtain an appropiate geometrical farm with data we did manual research of corn farms around the globe using the Google Maps api and different web pages. The results are listed in the next spreadsheet: 
 https://docs.google.com/spreadsheets/d/1w2lCI72LmMnyKiFCDlUVVUWBtV1YHIwRoVhVG5_bnZw/edit#gid=0

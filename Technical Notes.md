@@ -17,7 +17,10 @@ las técnicas de segmentación basadas en los valores de pıxel. El segundo grup
 ## Técnicas de segmentación
 - SLIC
 El algoritmo SLIC (Simple Linear Iterative Clustering) fue introducido por R.Achanta con la finalidad de generar un algoritmo simple y eficiente a comparación de otros algoritmos (Quickshift o N cut). Lo que se realiza es que se debe de indicar un parámetro K, el cual corresponde al número de superpixels (cantidad de pixeles en los que se dividirá la imagen (no todos son del mismo tamaño pero si muy parecidos).  A continuación se presenta un pseudocodigo obtenido de : https://oa.upm.es/69954/1/TFC_BOUDRIIYA_EL_HANDRIS_MOHAMMED_SALIM.pdf con el objetivo de ejemplificar el funcionamiento de este algoritmo.
-![image](https://user-images.githubusercontent.com/111094131/191816901-fb7cc23f-c1b4-4a94-a8f5-6121936e7ffe.png)
+<p align="center">
+  <![image](https://user-images.githubusercontent.com/111094131/191816901-fb7cc23f-c1b4-4a94-a8f5-6121936e7ffe.png)>
+</p>
+
 
 
 
@@ -49,6 +52,23 @@ https://www.scielo.org.mx/pdf/cys/v8n4/v8n4a5.pdf
 
 - Image Segmentation Techniques [Step By Step Implementation]
 https://www.upgrad.com/blog/image-segmentation-techniques/
+
+
+# Measuring vegetation  (NDVI)
+## Normalized Difference Vegetation Index (NDVI)
+This vegetation method is used when there is a need to identify abnormal vegetation and changes in health. This is done because the plant absorbs more visible red light and reflects more NIR than a diseased or old plant whose level of visible red light reflectance is higher and the NIR it reflects is lower. This is because its health is related to the level of chlorophyll in the plant. 
+![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
+
+The calculation of the NDVI is given by :
+$\(NIR - VISR)/ (NIR + VISR) = NDVI$
+
+Where the range of NDVI values per pixel should be between (-1) and (+1).
+When there is no vegetation the value is 0, non-green leaves give a value close to 0. Values close to +1 (0.8 - 0.9) indicate a large presence of green leaves. It detects vegetation that is of importance to analyse from values of 0.22 onwards.
+- Values less than or equal to 0.1 can be swept rock, sand and snow.
+- Values between 0.2 to 0.5 can be shrubs, grassland and senescent (old) crops.
+- Values between 0.6 to 0.9 dense vegetation present
+
+Source: [NASA Earth Observatory](https://earthobservatory.nasa.gov/features/MeasuringVegetation/measuring_vegetation_2.php)
 
 
 ## Supervised learning tecniques
