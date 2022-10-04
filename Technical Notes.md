@@ -69,9 +69,6 @@ When there is no vegetation the value is 0, non-green leaves give a value close 
 - Values between 0.6 to 0.9 dense vegetation present
 
 
-Translated with www.DeepL.com/Translator (free version)
-
-
 ## Supervised learning tecniques
 - Malek et al. (Malek et al., 2014) proposed automatic palm tree detection algorithm to identify haphazardly planted palm oil trees from UAV RGB images of the land. In the proposed identification process, feature extraction was done using Scale-Invariant Feature Transformation (SIFT) and classification was performed by extreme learning machine classifier.
 - Chew et al. (Chew et al., 2020) identified three different food crops (banana, maize and legume) using transfer learning process from pre trained VGG-16 and ImageNet CNN modules.
