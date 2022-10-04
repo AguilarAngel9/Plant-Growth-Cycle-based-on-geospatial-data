@@ -4,3 +4,4 @@ ClimateData
 DataExtraction/.ipynb_checkpoints
 __pycache__
 *.json
+*.tif
