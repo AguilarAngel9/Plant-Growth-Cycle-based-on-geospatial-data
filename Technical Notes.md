@@ -51,6 +51,12 @@ https://www.scielo.org.mx/pdf/cys/v8n4/v8n4a5.pdf
 https://www.upgrad.com/blog/image-segmentation-techniques/
 
 
+# Measuring vegetation  (NDVI)
+## Normalized Difference Vegetation Index (NDVI)
+This vegetation method is used when there is a need to identify abnormal vegetation and changes in health. This is done because the plant absorbs more visible red light and reflects more NIR than a diseased or old plant whose level of visible red light reflectance is higher and the NIR it reflects is lower. This is because its health is related to the level of chlorophyll in the plant.
+![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
+
+
 ## Supervised learning tecniques
 - Malek et al. (Malek et al., 2014) proposed automatic palm tree detection algorithm to identify haphazardly planted palm oil trees from UAV RGB images of the land. In the proposed identification process, feature extraction was done using Scale-Invariant Feature Transformation (SIFT) and classification was performed by extreme learning machine classifier.
 - Chew et al. (Chew et al., 2020) identified three different food crops (banana, maize and legume) using transfer learning process from pre trained VGG-16 and ImageNet CNN modules.
