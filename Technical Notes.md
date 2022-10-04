@@ -60,7 +60,16 @@ This vegetation method is used when there is a need to identify abnormal vegetat
 ![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
 
 The calculation of the NDVI is given by :
-$\(NIR - VIS~R)/ (NIR + VIS~R) = NDVI$
+$\(NIR - VISR)/ (NIR + VISR) = NDVI$
+
+Where the range of NDVI values per pixel should be between (-1) and (+1).
+When there is no vegetation the value is 0, non-green leaves give a value close to 0. Values close to +1 (0.8 - 0.9) indicate a large presence of green leaves. It detects vegetation that is of importance to analyse from values of 0.22 onwards.
+- Values less than or equal to 0.1 can be swept rock, sand and snow.
+- Values between 0.2 to 0.5 can be shrubs, grassland and senescent (old) crops.
+- Values between 0.6 to 0.9 dense vegetation present
+
+
+Translated with www.DeepL.com/Translator (free version)
 
 
 ## Supervised learning tecniques
