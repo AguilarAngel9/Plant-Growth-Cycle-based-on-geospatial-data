@@ -56,8 +56,10 @@ https://www.upgrad.com/blog/image-segmentation-techniques/
 
 # Measuring vegetation  (NDVI)
 ## Normalized Difference Vegetation Index (NDVI)
-This vegetation method is used when there is a need to identify abnormal vegetation and changes in health. This is done because the plant absorbs more visible red light and reflects more NIR than a diseased or old plant whose level of visible red light reflectance is higher and the NIR it reflects is lower. This is because its health is related to the level of chlorophyll in the plant.
+This vegetation method is used when there is a need to identify abnormal vegetation and changes in health. This is done because the plant absorbs more visible red light and reflects more NIR than a diseased or old plant whose level of visible red light reflectance is higher and the NIR it reflects is lower. This is because its health is related to the level of chlorophyll in the plant. 
 ![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
+The calculation of the NDVI is given by :
+$\(NIR - VIS R)/ (NIR + VIS R) = NDVI$
 
 
 ## Supervised learning tecniques
