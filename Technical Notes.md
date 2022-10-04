@@ -60,7 +60,7 @@ This vegetation method is used when there is a need to identify abnormal vegetat
 ![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
 
 The calculation of the NDVI is given by :
-$\NDVI = (NIR - VISR)/ (NIR + VISR)$
+$NDVI = (NIR - VISR)/ (NIR + VISR)$
 - NIR light reflected in the near-infrared spectrum
 - VISR light reflected in the red range of the spectrum
 
@@ -75,27 +75,31 @@ Source: [NASA Earth Observatory](https://earthobservatory.nasa.gov/features/Meas
 ## Soil Adjusted Vegetation Index (SAVI)
 It is used to correct NDVI for the influence of shiny oil in areas with little vegetation, i.e. it is an alternative method to NDVI specialised in young crops and arid areas. The results are equally between (-1) and (1).
 
-$SAVI = ((NIR - VISR) / (NIR + VISR + L)) x (1 + L)$
+The calculation of the SAVI is given by :
+$SAVI = (NIR - VISR) / (NIR + VISR + L)  * (1 + L)$
 - NIR light reflected in the near-infrared spectrum
 - VISR light reflected in the red range of the spectrum
 - L correction factor for soil brightness
+
 The L value is given by the conditions;
 - L=1 in areas with moderate vegatative
 - L=0.5 in areas with very high vegetation
 - L=0 is equal to NDVI method
+The value of L is adjusted based on the amount of vegetation. L=0.5 is the default value and works well in most situations
 
 Source: [USGS](https://www.usgs.gov/landsat-missions/landsat-soil-adjusted-vegetation-index)
 
-## (GCI)
+## Green Chlorophyll Index (GCI)
+This method is used to estimate leaf chlorophyll content in the plants based only on NIR and VISG. THe value of chlorophyll directly reflects the vegetation's existence.
+
+The calculation of the GCI is given by :
+$CGI = (NIR)/ (VISG)  - 1 $
+
+- NIR light reflected in the near-infrared spectrum
+- VISG light reflected in the green range of the spectrum
 
 
-
-
-
-
-
-
-
+Source: [EOS](https://eos.com/make-an-analysis/chlorophyll-index/)
 
 
 ## Supervised learning tecniques
