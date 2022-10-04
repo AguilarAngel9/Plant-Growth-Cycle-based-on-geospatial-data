@@ -68,6 +68,8 @@ When there is no vegetation the value is 0, non-green leaves give a value close 
 - Values between 0.2 to 0.5 can be shrubs, grassland and senescent (old) crops.
 - Values between 0.6 to 0.9 dense vegetation present
 
+Source: [NASA Earth Observatory](https://earthobservatory.nasa.gov/features/MeasuringVegetation/measuring_vegetation_2.php)
+
 
 ## Supervised learning tecniques
 - Malek et al. (Malek et al., 2014) proposed automatic palm tree detection algorithm to identify haphazardly planted palm oil trees from UAV RGB images of the land. In the proposed identification process, feature extraction was done using Scale-Invariant Feature Transformation (SIFT) and classification was performed by extreme learning machine classifier.
