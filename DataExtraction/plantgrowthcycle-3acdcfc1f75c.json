@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "plantgrowthcycle",
+  "private_key_id": "3acdcfc1f75cac716fb48083818ee4df9fcc411c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDA+f1Qb/JBNG2Q\nfedDoElu3HsepQ7+K5DTs2hxF3jG351i5wHEzJ2vNHy1C6UZfTh2cHPyQ9Fs222s\nKdJ1HWAdpLezbUO9MF4JG/BKM2p3u8qcMcT9xVTmtrWy+9AElcUGqbL8KnrdMdlp\nHDctJOVOxdxFCeCXMpdHm4oD7iBVCd/V+rj3HfjF2kCbIOfOo3Fxs5427R0PfzEe\nGl7b7kICn8pJ0wKJMiLaZJ5Cc0SGaypahDwftCxGXTjRumwgpLa1lcByRUu0DjrH\nfJBfqRTdN+flHWAUCqWmV1GG/Nej0bTOS6wYjGWK5bdPlD87bZ2CQ1/QUa/fTMbw\nvXlIzppRAgMBAAECggEASD3NvM0LralI0uyvJLvegaf8V06HPFNm1jm1gZC94AVa\nT+oW2WuYJDzL6qK/Xblo573VSf5lahEDD45ggQNMNgyx0HO5BhwTN+nDnKN+2e/t\nO2fOTQoQbIY9oxFtoCnJJmNk482rTR8aOqUbasUDKugbO6Uk9LU1uNLbafk9FVgE\ng2JXxHkzu5gUPfyfuIjfbtGl0O9c3lgiN1y43cULmyS4LNQioN8Bf+m7fsEmhCxt\nmlOOKkDME+XN4XPUwrzzqqgiRB6KTGpgs5ifC5/81/B1j4jylhLPOh9tVEw7Vgzz\nrMlo9gy/5u1cUSxkIldu573P8neE1WWa0rhyirvleQKBgQDjneDFUDIrNNozg90m\nrrPGs+EtYpLyr2ZG2VyHuI2Cle1VhuFcpvQ+lPwYLCk3m/c9VTCQSHjW0+eHZDKs\nViIu27qJ+VjzslAFjhNSsqvJiYLR5Lfh0e47bDgiqb90Shx5FZB4ZtQQotVgR8Fz\nJECeYpB+RuCtsQWexs6MKdUyowKBgQDZCk5M0RZU9MbfLas/LqncSadm+ScfPAEe\nXOCQYxzeDu3l6v0Bol2We5ecRAcBh0YEMsnONsfnZcsiEMqceYqKRqCqZaHA7Ri0\ngSpwfTr6ZdQ080kRf85Z8IKRI6KwpXBDnOF1GnGWFXDTQhUQQwwCs3by0EFp4+Aa\nfcA1UL4CewKBgQCGpvU7hO/I46FZ7F497gfoOq2xXak07FKDAz9cAu+kGvGmMP7N\nAu9mvlhMLIPNo/SlUepC0Ly7yewkCkB39xSNx+sYiGv47rmsL5p6x7wco77CUJ3/\nd2OJv8GNsAHU16r0bq9iquI1XT8BkDF+3ilkCUcVjPSJjDmY7l9uR6kaJQKBgDrK\nJ9t2522rwBLD9BbxNOGOseGaq5YyUrs+vTVfI3qi4J3ewRmoOWGBqNeTNbKcScLp\nXvCUtiFf2V4o3jj0UyqRZwPA88emcYKzWiOOSGN7IbgWDjzHOcXy9+sIlBD1PyuR\nWyC1QP8+X4lZ5Qq6no48voOXFaDxMMr8NQw8CrvxAoGAOCDS17WLjs8cGvxIPM67\nMKCYieiOech7ICc67dLuXELCj5POQFeT9byzORrFIYWy3YXm4MHyHR6msJb5t0wk\ngPeHzdPT97qMd1Jb5cvPzeetmZ9sK9TyWo8Tm2zHURtmGbBOe6MU0zcrqmBnIwnH\nehvRH4TW7gol/xd4cS/MhTc=\n-----END PRIVATE KEY-----\n",
+  "client_email": "tec-semester@plantgrowthcycle.iam.gserviceaccount.com",
+  "client_id": "113826473766338418193",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/tec-semester%40plantgrowthcycle.iam.gserviceaccount.com"
+}
