@@ -30,3 +30,5 @@ Sentinel-2 (S2) is a wide-swath, high-resolution, multispectral imaging mission 
 # New Data
 In order to obtain an appropiate geometrical farm with data we did manual research of corn farms around the globe using the Google Maps api and different web pages. The results are listed in the next spreadsheet: 
 https://docs.google.com/spreadsheets/d/1w2lCI72LmMnyKiFCDlUVVUWBtV1YHIwRoVhVG5_bnZw/edit#gid=0
+
+# Escribiendo prueba
