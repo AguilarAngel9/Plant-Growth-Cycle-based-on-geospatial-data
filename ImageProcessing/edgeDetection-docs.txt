@@ -1,0 +1,8 @@
+--- Canny algorithm ---
+https://docs.opencv.org/3.4/d7/de1/tutorial_js_canny.html - OpenCV documentation
+https://programarfacil.com/blog/vision-artificial/detector-de-bordes-canny-opencv/ - Small edge detection tutorial
+https://pyimagesearch.com/2015/04/06/zero-parameter-automatic-canny-edge-detection-with-python-and-opencv/ - Canny Auto Tunning
+https://pyimagesearch.com/2014/04/21/building-pokedex-python-finding-game-boy-screen-step-4-6/ - Canny detection tutorial
+
+--- General utility ---
+https://stackoverflow.com/questions/49397941/split-image-into-multiple-grids Draw grid
