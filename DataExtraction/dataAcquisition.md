@@ -27,8 +27,12 @@ Sentinel-2 (S2) is a wide-swath, high-resolution, multispectral imaging mission 
 
 ![Crop times in Germany](https://ipad.fas.usda.gov/rssiws/al/crop_calendar/images/europe_gm_calendar.png)
 
-# New Data
-In order to obtain an appropiate geometrical farm with data we did manual research of corn farms around the globe using the Google Maps api and different web pages. The results are listed in the next spreadsheet: 
-https://docs.google.com/spreadsheets/d/1w2lCI72LmMnyKiFCDlUVVUWBtV1YHIwRoVhVG5_bnZw/edit#gid=0
+# Obtaining the testing data
+In order to find appropiate geometrical cropland to study we did manual research of corn fields around the globe using the Google Maps api and different websites.
+We arbitrarily opt to search the biggest corn producer states in the U.S. and Canada. We finally used crops from Iowa, U.S. and Manitoba, CAN. This for the purpose of finding large and traceable parcels considering the medium resolution of Sentinel-2. The main resources used to find the crops were the following databases:
+    - [USGS Global Groplands](https://www.usgs.gov/apps/croplands/app/map?lat=42.50324&lng=-88.68404388427734&zoom=12)
+    - [USDA Voyager - Navigo](https://voyager.fas.usda.gov/voyager/navigo/search?sort=score%20desc&disp=D176678659AD&basemap=ESRI%20World%20Street%20Map&view=summary&sortdir=desc&place.op=within&q=tomato%20calendar&filter=true)
+    
+The USGS Croplands Map is a global map where specific crop types and other geological data are displayed by map layers. In this project it was used to scout for cropfields of our interest by map layering, specifically Global GCE 1km Cropland Dominance and Other Products. Differenced by different colors we mainly focused on the color that included corn as a dominant crop (dark green) and another one that also had the mentioned grain (light green). After finding the locations of some selected cropfields we used the Voyager - Navigo website to get the crops' calendar of the countries. Both websites are owned and managed by the U.S. government (USGS and USDA respectively).
+The results are listed in this [spreadsheet]( https://docs.google.com/spreadsheets/d/1w2lCI72LmMnyKiFCDlUVVUWBtV1YHIwRoVhVG5_bnZw/edit#gid=0).
 
-# Escribiendo prueba
