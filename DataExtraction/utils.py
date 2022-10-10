@@ -50,7 +50,7 @@ def load_landsat_image(
         )
 
     return images_dict
-    
+
 
 def convert_to_eight_bits(
     img: Union[Dict, None]
@@ -59,7 +59,7 @@ def convert_to_eight_bits(
     To reescale image to 8 bits.
     """
     img_stack = np.stack(
-        [img['B4'], img['B3'], img['B2']]
+        [img['B4'], img['B3'], img['B2'], img['B8']]
         , axis=-1)
 
     scaled_img = img_as_ubyte(
@@ -67,29 +67,6 @@ def convert_to_eight_bits(
     )
     
     return scaled_img
-
-
-def stack_to_dict(
-    stack: Union[np.stack, None],
-    bands: List[str] = ['B4','B3','B2', 'B8']
-) -> Dict:
-    """
-    Unstack the rescaled dictionary.
-    """
-    unstack_dict = {}
-
-    # Get the dimension of the stack.
-    columns = stack.shape[1]
-
-    # Iterate over the columns.
-    for i in range(columns):
-        band_array = [c[i] for c in stack]
-        
-        unstack_dict.update(
-            {bands[i] : band_array}
-        )
-
-    return unstack_dict
 
 
 def convert_dict_eight_bits(
@@ -159,3 +136,40 @@ def sort_dict_by_date(
     keys_sorted_list = [key[0] for key in datetimes_list]
 
     return keys_sorted_list
+
+
+def stack_to_dict(
+    stack: Union[np.stack, None],
+    bands: List[str] = ['B4','B3','B2','B8']
+) -> Dict:
+    """
+    Unstack the rescaled dictionary.
+    """
+    dimension = stack.shape
+
+    # Create the arrays of the bands.
+    bands_lst = [[] for band in bands]
+    
+    for i in range(dimension[0]):
+        for j in range(dimension[1]):
+            # R
+            bands_lst[0].append(
+                stack[i][j][0]
+            )
+            # G
+            bands_lst[1].append(
+                stack[i][j][1]
+            )
+            # B
+            bands_lst[2].append(
+                stack[i][j][2]
+            )
+            # NIR
+            bands_lst[3].append(
+                stack[i][j][3]
+            )
+    
+    # Create
+    unstack_dict = {bands[i] : bands_lst  for i in range(len(bands))}
+            
+    return unstack_dict
