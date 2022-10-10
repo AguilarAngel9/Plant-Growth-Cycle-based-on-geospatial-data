@@ -3,6 +3,7 @@
 
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
+from datetime import datetime
 import matplotlib.pyplot as plt
 import numpy as np
 import rasterio
@@ -50,29 +51,6 @@ def load_landsat_image(
 
     return images_dict
 
-
-def display_rgb(
-    img: Union[Dict, None], 
-    alpha=1., 
-    figsize=(5, 5)
-    ) -> np.array:
-    """
-    Display the LANDSAT images as RGB images.
-    """
-    # Stack the vectors.
-    rgb = np.stack(
-        [img['B4'], img['B3'], img['B2']],
-        axis=-1
-    )
-
-    # Reescale.
-    rgb = rgb/rgb.max() * alpha
-    plt.figure(figsize=figsize)
-    plt.imshow(rgb)
-
-    return rgb
-
-
 def convert_to_eight_bits(
     img: Union[Dict, None]
 ) -> np.array:
@@ -88,3 +66,43 @@ def convert_to_eight_bits(
     )
     
     return scaled_img
+
+def display_rgb(
+    img: Union[Dict, None], 
+    title: str ='Landsat',
+    alpha=1., 
+    figsize=(5, 5)
+    ) -> np.array:
+    """
+    Display the LANDSAT images as RGB images.
+    """
+    # Stack the vectors.
+    rgb = np.stack(
+        [img['B4'], img['B3'], img['B2']],
+        axis=-1
+    )
+
+    # Reescale.
+    rgb = rgb/rgb.max() * alpha
+    plt.figure(figsize=figsize)
+    plt.title(title)
+    plt.imshow(rgb)
+
+    return rgb
+
+def sort_dict_by_date(
+    images_dicts : Union[Dict, None]
+) -> List:
+    """
+    Sorted the Images Dict keys' to make a time series analysis.
+    """
+    # Get all the keys of the dictionary.
+    dates_list = [(key, re.findall(f"(\d+)T", key)[0]) for key in images_dicts.keys()]
+    # Cast the keys to daterimes.
+    datetimes_list = [(date[0], datetime.strptime(date[1], '%Y%m%d')) for date in dates_list]
+    # Sort the tuples based on the datetimes.
+    datetimes_list = sorted(datetimes_list, key = lambda x: x[1])
+    # Extract just the sorted keys.
+    keys_sorted_list = [key[0] for key in datetimes_list]
+
+    return keys_sorted_list
