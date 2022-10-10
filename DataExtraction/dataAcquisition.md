@@ -12,23 +12,23 @@ Google Earth Engine is a geospatial processing service, powered by Google Cloud 
 
 So far, we have identified some data sets that could be useful.
 
-- Datasets tagged highres in Earth Engine
-    - [NAIP: National Agriculture Imagery Program](https://developers.google.com/earth-engine/datasets/catalog/USDA_NAIP_DOQQ#description)
-    - [Planet SkySat Public Ortho Imagery, RGB](https://developers.google.com/earth-engine/datasets/catalog/SKYSAT_GEN-A_PUBLIC_ORTHO_RGB)
-    - [Planet SkySat Public Ortho Imagery, Multispectra](https://developers.google.com/earth-engine/datasets/catalog/SKYSAT_GEN-A_PUBLIC_ORTHO_MULTISPECTRAL)
+### Datasets tagged as *high res* in Earth Engine
+- [NAIP: National Agriculture Imagery Program](https://developers.google.com/earth-engine/datasets/catalog/USDA_NAIP_DOQQ#description)
+- [Planet SkySat Public Ortho Imagery, RGB](https://developers.google.com/earth-engine/datasets/catalog/SKYSAT_GEN-A_PUBLIC_ORTHO_RGB)
+- [Planet SkySat Public Ortho Imagery, Multispectra](https://developers.google.com/earth-engine/datasets/catalog/SKYSAT_GEN-A_PUBLIC_ORTHO_MULTISPECTRAL)
 
-- Landsat 9: Landsat, a joint program of the USGS and NASA, has been observing the Earth continuously from 1972 through the present day. Today the Landsat satellites image the entire Earth's surface at a 30-meter resolution about once every two weeks, including multispectral and thermal data. The USGS produces data in 3 categories for each satellite (Tier 1, Tier 2 and RT)
-    - [USGS Landsat 9 Level 2, Collection 2, Tier 1](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1_L2)
-    - [USGS Landsat 9 Collection 2 Tier 1 TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1_TOA)
-    - [USGS Landsat 9 Collection 2 Tier 1 Raw Scenes](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1)
+### Landsat 9
+Landsat, a joint program of the USGS and NASA, has been observing the Earth continuously from 1972 through the present day. Today the Landsat satellites image the entire Earth's surface at a 30-meter resolution about once every two weeks, including multispectral and thermal data. The USGS produces data in 3 categories for each satellite (Tier 1, Tier 2 and RT).
 
-## Sentinel-2
+- [USGS Landsat 9 Level 2, Collection 2, Tier 1](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1_L2)
+- [USGS Landsat 9 Collection 2 Tier 1 TOA Reflectance](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1_TOA)
+- [USGS Landsat 9 Collection 2 Tier 1 Raw Scenes](https://developers.google.com/earth-engine/datasets/catalog/LANDSAT_LC09_C02_T1)
+
+### Sentinel-2
 Sentinel-2 (S2) is a wide-swath, high-resolution, multispectral imaging mission with a global 5-day revisit frequency. The S2 Multispectral Instrument (MSI) samples 13 spectral bands: visible and NIR at 10 meters, red edge and SWIR at 20 meters, and atmospheric bands at 60 meters spatial resolution. It provides data suitable for assessing state and change of vegetation, soil, and water cover.
 
-![Crop times in Germany](https://ipad.fas.usda.gov/rssiws/al/crop_calendar/images/europe_gm_calendar.png)
-
-# Obtaining the testing data
-In order to find appropiate geometrical cropland to study we did manual research of corn fields around the globe using the Google Maps api and different websites.
+## Obtaining the testing data
+In order to find appropiate geometrical cropland to study we did manual research of corn fields around the globe using the Google Maps Api and different websites.
 We arbitrarily opt to search the biggest corn producer states in the U.S. and Canada. We finally used crops from Iowa, U.S. and Manitoba, CAN. This for the purpose of finding large and traceable parcels considering the medium resolution of Sentinel-2. The main resources used to find the crops were the following databases:
 - [USGS Global Groplands](https://www.usgs.gov/apps/croplands/app/map?lat=42.50324&lng=-88.68404388427734&zoom=12)
 - [USDA Voyager - Navigo](https://voyager.fas.usda.gov/voyager/navigo/search?sort=score%20desc&disp=D176678659AD&basemap=ESRI%20World%20Street%20Map&view=summary&sortdir=desc&place.op=within&q=tomato%20calendar&filter=true)
