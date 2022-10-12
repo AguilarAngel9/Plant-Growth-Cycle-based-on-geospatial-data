@@ -170,6 +170,6 @@ def stack_to_dict(
             )
     
     # Create
-    unstack_dict = {bands[i] : bands_lst  for i in range(len(bands))}
+    unstack_dict = {bands[i] : bands_lst[i]  for i in range(len(bands))}
             
     return unstack_dict
