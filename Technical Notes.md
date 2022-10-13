@@ -57,9 +57,10 @@ https://www.upgrad.com/blog/image-segmentation-techniques/
 # Measuring vegetation  (NDVI)
 ## Normalized Difference Vegetation Index (NDVI)
 This vegetation method is used when there is a need to identify abnormal vegetation and changes in health. This is done because the plant absorbs more visible red light and reflects more NIR than a diseased or old plant whose level of visible red light reflectance is higher and the NIR it reflects is lower. This is because its health is related to the level of chlorophyll in the plant. 
-![image](https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png)
+<p align="center">
+ <img src="https://user-images.githubusercontent.com/111094131/193896755-e1883078-b1f3-4e07-bf94-2ef90c74585d.png" width=30%>
 
-The calculation of the NDVI is given by :
+The calculation of the NDVI is given by:   
 $NDVI = (NIR - VISR)/ (NIR + VISR)$
 - NIR light reflected in the near-infrared spectrum
 - VISR light reflected in the red range of the spectrum
@@ -75,7 +76,7 @@ Source: [NASA Earth Observatory](https://earthobservatory.nasa.gov/features/Meas
 ## Soil Adjusted Vegetation Index (SAVI)
 It is used to correct NDVI for the influence of shiny oil in areas with little vegetation, i.e. it is an alternative method to NDVI specialised in young crops and arid areas. The results are equally between (-1) and (1).
 
-The calculation of the SAVI is given by :
+The calculation of the SAVI is given by:  
 $SAVI = (NIR - VISR) / (NIR + VISR + L)  * (1 + L)$
 - NIR light reflected in the near-infrared spectrum
 - VISR light reflected in the red range of the spectrum
@@ -92,7 +93,7 @@ Source: [USGS](https://www.usgs.gov/landsat-missions/landsat-soil-adjusted-veget
 ## Green Chlorophyll Index (GCI)
 This method is used to estimate leaf chlorophyll content in the plants based only on NIR and VISG. THe value of chlorophyll directly reflects the vegetation's existence.
 
-The calculation of the GCI is given by :
+The calculation of the GCI is given by:  
 $CGI = (NIR)/ (VISG)  - 1 $
 
 - NIR light reflected in the near-infrared spectrum
@@ -100,6 +101,40 @@ $CGI = (NIR)/ (VISG)  - 1 $
 
 
 Source: [EOS](https://eos.com/make-an-analysis/chlorophyll-index/)
+
+## Normalized Difference Red Edge (NDRE)
+The NDRE index follows the same method as NDVI but substituting the visible red band with some red edge wavelength (670 nm - 760 nm). Red egde is where spectral reflectance of green vegetation changes quickly. NDRE analysis is more precise for middle and late growth stages with higher chlorophyll in the plants.
+
+The calculation of the NDRE is given by:   
+$NDRE = (NIR-RE)/(NIR+RE) $
+  
+- RE light reflected between the visible red and the near-infrared ranges of the spectrum.
+- NIR light reflected in the near-infrared spectrum
+
+Source: [(Boaiarskii & Hasegawa, 2019)](https://www.researchgate.net/profile/Boris-Boiarskii/publication/337193427_Comparison_of_NDVI_and_NDRE_Indices_to_Detect_Differences_in_Vegetation_and_Chlorophyll_Content/links/5ebbcdcf299bf1c09ab98110/Comparison-of-NDVI-and-NDRE-Indices-to-Detect-Differences-in-Vegetation-and-Chlorophyll-Content.pdf) 
+
+## Wide Dynamic Range Vegetation Index (WDRVI)
+This index is another modification of NDVI considering the adjustment factor α for the infrared band considering the imbalance between the NIR and VISR as the crop grows. This is because the sensitivity of the NDVI is maintained once a certain biomass densitiy is reached. With this modified index, we have a more precise characteristic value for every leaf area index (LAI) stage.
+<p align="center">
+<img src="https://i0.wp.com/www.environmentalbiophysics.org/wp-content/uploads/2017/02/Picture1-4.png" width=50%>
+
+
+The calculation of the WDRVI is given by:   
+$WDRVI = (α \cdot NIR - VISR)/(α \cdot NIR + VISR) $
+  
+- α: [0.1-0.2] arbitrary adjustment factor, the bigger the coeffient
+- NIR light reflected in the near-infrared spectrum
+- VISR light reflected in the red range of the spectrum
+
+## Excess Green Index (EXG)
+This index contrasts the portion that is green from the red and blue just to differentiate vegetation from other types of soil.
+
+The calculation of the EXG is given by:    
+$EXG = 2\cdot VISG -VISR-VISB$ ,
+
+- VISG,VISR,VISB are the light reflected in the green, red and blue ranges of the spectrum, respectively
+
+Source:  [Tech For Wildlife](https://www.techforwildlife.com/blog/2019/1/22/analysing-drone-and-satellite-imagery-using-vegetation-indices) 
 
 
 ## Supervised learning tecniques
