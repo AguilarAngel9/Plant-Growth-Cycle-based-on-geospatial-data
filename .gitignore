@@ -1,7 +1,11 @@
+# Virtual env.
 venvpgc
-ClimateDataTest
-ClimateData
 *.ipynb_checkpoints
 __pycache__
+
+# JSON secrets
 *.json
+
+# Images
 *.tif
+*.png
