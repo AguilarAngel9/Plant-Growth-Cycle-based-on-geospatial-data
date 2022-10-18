@@ -7,3 +7,4 @@ geemap==0.16.9
 rasterio==1.3.2
 scikit-image==0.19.3
 earthpy==0.9.4
+scikit-learn==1.1.2
