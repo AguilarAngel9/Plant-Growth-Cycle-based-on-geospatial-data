@@ -196,6 +196,88 @@ def get_center_pixels(image_data, square_shape=(3,3)) -> np.array:
 
     return square
 
+def calculate_ndvi(image_data, square_shape=(3,3)):
+    
+    h, l = square_shape
+    b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
+    b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
 
+    visr = b4.astype("float64")
+    nir = b8.astype("float64")
+
+    ndvi_matrix=np.where((nir+visr)==0., 0, (nir-visr)/(nir+visr))
+    
+    # fig, ax = plt.subplots()
+    # divider = make_axes_locatable(ax)
+    # cax = divider.append_axes('right', size='5%', pad=0.05)
+
+    # im = ax.imshow(ndvi_matrix, cmap='viridis')
+    # fig.colorbar(im, cax=cax, orientation='vertical')
+    # plt.show()
+
+    return ndvi_matrix
+
+def calculate_wdrvi(image_data, square_shape=(3,3), a=0.1):
+
+    h, l = square_shape
+    b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
+    b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
+
+    visr = b4.astype("float64")
+    nir = b8.astype("float64")
+
+    wdrvi_matrix=np.where((nir+visr)==0., 0, (a*nir-visr)/(a*nir+visr))
+    
+    # fig, ax = plt.subplots()
+    # divider = make_axes_locatable(ax)
+    # cax = divider.append_axes('right', size='5%', pad=0.05)
+
+    # im = ax.imshow(ndvi_matrix, cmap='viridis')
+    # fig.colorbar(im, cax=cax, orientation='vertical')
+    # plt.show()
+
+    return wdrvi_matrix
+
+def calculate_savi(image_data, square_shape=(3,3), L=0.5):
+
+    h, l = square_shape
+    b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
+    b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
+
+    visr = b4.astype("float64")
+    nir = b8.astype("float64")
+
+    savi_matrix=np.where((visr+nir + L)==0., 0, ((nir-visr)/(visr+nir + L) ) * (1+L))
+
+    # fig, ax = plt.subplots()
+    # divider = make_axes_locatable(ax)
+    # cax = divider.append_axes('right', size='5%', pad=0.05)
+    
+    # im = ax.imshow(savi_matrix, cmap='RdYlGn')
+
+    # fig.colorbar(im, cax=cax, orientation='vertical')
+    # plt.show()
+
+    return savi_matrix
+
+def calculate_gci(image_data, square_shape=(3,3)):
+
+    h, l = square_shape
+    b3 = np.array(image_data["B3"]).reshape(2*h,2*l,1)
+    b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
+
+    visg = b3.astype('float64')
+    nir = b8.astype('float64')
+
+    gci_matrix=np.where((visg)==0., 0, (nir)/(visg) - 1)
+
+    # fig, ax = plt.subplots()
+    # divider = make_axes_locatable(ax)
+    # cax = divider.append_axes('right', size='5%', pad=0.05)
+    # im = ax.imshow(gci_matrix, cmap='RdYlGn')
+    # fig.colorbar(im, cax=cax, orientation='vertical')
+    # plt.show()
+
+    return gci_matrix
 
 
