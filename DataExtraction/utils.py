@@ -280,4 +280,71 @@ def calculate_gci(image_data, square_shape=(3,3)):
 
     return gci_matrix
 
+def calculate_index_avg(index_matrix):
+    return index_matrix.flatten().sum()/len(index_matrix.flatten())
+
+def generate_ndvi_time_series(images):
+
+    values = []
+
+    for image in sort_dict_by_date(images):
+        img = convert_to_eight_bits(images[image])
+        representative_region = get_center_pixels(img)
+        representative_region_bands = stack_to_dict(representative_region)
+        index_calculation = calculate_ndvi(representative_region_bands)
+        average = calculate_index_avg(index_calculation)
+
+        values.append(average)
+
+    return values
+
+def generate_savi_time_series(images):
+
+    values = []
+
+    for image in sort_dict_by_date(images):
+        img = convert_to_eight_bits(images[image])
+        representative_region = get_center_pixels(img)
+        representative_region_bands = stack_to_dict(representative_region)
+        index_calculation = calculate_savi(representative_region_bands)
+        average = calculate_index_avg(index_calculation)
+
+        values.append(average)
+
+    return values
+
+def generate_gci_time_series(images):
+
+
+    values = []
+
+    for image in sort_dict_by_date(images):
+        img = convert_to_eight_bits(images[image])
+        representative_region = get_center_pixels(img)
+        representative_region_bands = stack_to_dict(representative_region)
+        index_calculation = calculate_gci(representative_region_bands)
+        average = calculate_index_avg(index_calculation)
+
+        values.append(average)
+    #normalization
+    norm = [float(i)/max(values) for i in values] 
+    return norm
+
+def generate_wdrvi_time_series(images):
+    
+
+    values = []
+
+    for image in sort_dict_by_date(images):
+        img = convert_to_eight_bits(images[image])
+        representative_region = get_center_pixels(img)
+        representative_region_bands = stack_to_dict(representative_region)
+        index_calculation = calculate_wdrvi(representative_region_bands)
+        average = calculate_index_avg(index_calculation)
+
+        values.append(average)
+    #normalization
+    norm = [float(i)/max(values) for i in values] 
+    return norm
+
 
