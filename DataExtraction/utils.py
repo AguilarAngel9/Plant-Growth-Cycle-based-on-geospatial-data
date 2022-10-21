@@ -9,6 +9,11 @@ import numpy as np
 import rasterio
 import pathlib
 import re
+import matplotlib.gridspec as gridspec
+from mpl_toolkits.axes_grid1 import make_axes_locatable
+from datetime import datetime
+import pandas as pd
+import cv2
 
 
 def load_landsat_image(
@@ -173,3 +178,24 @@ def stack_to_dict(
     unstack_dict = {bands[i] : bands_lst[i]  for i in range(len(bands))}
             
     return unstack_dict
+
+def get_center_pixels(image_data, square_shape=(3,3)) -> np.array:
+    """
+    Takes the center area of a picture of shape square_shape
+    """
+    drawing = image_data.copy()
+    h, w, _ = image_data.shape
+    rows, cols = square_shape
+    
+    center = (round(h/2), round(w/2))
+
+    square = image_data[center[0]-cols:center[0]+cols, center[1]-rows:center[1]+rows]
+
+    cv2.rectangle(drawing, (center[0]-cols, center[1]-rows), (center[0]+cols, center[1]+rows), (255, 255, 255))
+    plt.imshow(drawing)
+
+    return square
+
+
+
+
