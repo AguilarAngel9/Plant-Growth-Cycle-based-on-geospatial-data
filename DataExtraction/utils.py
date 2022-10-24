@@ -179,7 +179,8 @@ def stack_to_dict(
             
     return unstack_dict
 
-def get_center_pixels(image_data, square_shape=(3,3)) -> np.array:
+def get_center_pixels(image_data: dict, 
+    square_shape=(3,3)) -> np.array:
     """
     Takes the center area of a picture of shape square_shape
     """
@@ -196,7 +197,9 @@ def get_center_pixels(image_data, square_shape=(3,3)) -> np.array:
 
     return square
 
-def calculate_ndvi(image_data, square_shape=(3,3), visualize=True):
+def calculate_ndvi(image_data,
+    square_shape=(3,3),
+    visualize=True) -> np.array:
     
     h, l = square_shape
     b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
@@ -219,7 +222,10 @@ def calculate_ndvi(image_data, square_shape=(3,3), visualize=True):
 
     return ndvi_matrix
 
-def calculate_wdrvi(image_data, square_shape=(3,3), a=0.1, visualize=True):
+def calculate_wdrvi(image_data: dict,
+    square_shape=(3,3),
+    a=0.1,
+    visualize=True) -> np.array:
 
     h, l = square_shape
     b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
@@ -242,7 +248,10 @@ def calculate_wdrvi(image_data, square_shape=(3,3), a=0.1, visualize=True):
 
     return wdrvi_matrix
 
-def calculate_savi(image_data, square_shape=(3,3), L=0.5, visualize=True):
+def calculate_savi(image_data: dict,
+    square_shape=(3,3),
+    L=0.5,
+    visualize=True) -> np.array:
 
     h, l = square_shape
     b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
@@ -266,7 +275,9 @@ def calculate_savi(image_data, square_shape=(3,3), L=0.5, visualize=True):
 
     return savi_matrix
 
-def calculate_gci(image_data, square_shape=(3,3), visualize=True):
+def calculate_gci(image_data: dict,
+    square_shape=(3,3),
+    visualize=True) -> np.array:
 
     h, l = square_shape
     b3 = np.array(image_data["B3"]).reshape(2*h,2*l,1)
@@ -288,10 +299,10 @@ def calculate_gci(image_data, square_shape=(3,3), visualize=True):
 
     return gci_matrix
 
-def calculate_index_avg(index_matrix):
+def calculate_index_avg(index_matrix: np.array) -> int:
     return index_matrix.flatten().sum()/len(index_matrix.flatten())
 
-def generate_ndvi_time_series(images):
+def generate_ndvi_time_series(images: dict) -> list:
 
     values = []
 
@@ -306,7 +317,7 @@ def generate_ndvi_time_series(images):
 
     return values
 
-def generate_savi_time_series(images):
+def generate_savi_time_series(images: dict) -> list:
 
     values = []
 
@@ -321,7 +332,7 @@ def generate_savi_time_series(images):
 
     return values
 
-def generate_gci_time_series(images):
+def generate_gci_time_series(images: dict) -> list:
 
 
     values = []
@@ -338,7 +349,7 @@ def generate_gci_time_series(images):
     norm = [float(i)/max(values) for i in values] 
     return norm
 
-def generate_wdrvi_time_series(images):
+def generate_wdrvi_time_series(images: dict) -> list:
     
 
     values = []
