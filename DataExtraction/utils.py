@@ -1,11 +1,14 @@
 # Data Processor Library.
 # Authors: THEFFFTKID.
 
+from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
 from datetime import datetime, timedelta
-from datetime import datetime
+from scipy.signal import savgol_filter
+from operator import itemgetter
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -481,3 +484,87 @@ def dates_to_day_numbers(
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
 
     return day_numbers, dates_list
+
+
+def match_indexes(
+    indexes: Union[List, None],
+    array_to_match: Union[List, None]
+) -> List:
+    """
+    To match an index list to it's reference.
+    """
+    try:
+        intersection = itemgetter(*indexes)(array_to_match)
+    except TypeError:
+        intersection = []
+
+    # Cast to list.
+    if type(intersection) == tuple:
+        intersection = list(intersection)
+    elif type(intersection) == np.int64:
+        intersection = [intersection]
+
+    return intersection
+
+
+def identify_outliers(
+    raw_x: Union[List, np.ndarray],
+    raw_y: Union[List, np.ndarray],
+    outliers_fraction : float = 0.10
+) -> List:
+    """
+    Identify an Isolation Forest for outiler identification.
+    """
+    if raw_x != np.ndarray and raw_y != np.ndarray:
+        # Cast and reshape.
+        reshaped_y = np.array(raw_y).reshape(-1, 1)
+    else:
+        reshaped_y = raw_y.reshape(-1, 1)
+    
+    # Instance the Isolation Forest.
+    outliers_model = IsolationForest(
+        contamination=outliers_fraction
+    )
+
+    # Fit & Predict the raw data.
+    new_data = outliers_model.fit_predict(
+        reshaped_y
+    )
+
+    # Get the indexes of the outliers.
+    outliers_ind = [index for index, value in enumerate(new_data) if value == -1]
+    outliers = match_indexes(outliers_ind, raw_y)
+
+    # Get the indexes of the good values.
+    clean_ind = [index for index, value in enumerate(new_data) if value == 1]
+    clean_y = match_indexes(clean_ind, raw_y)
+    # Get the x values.
+    clean_x = match_indexes(clean_ind, raw_x)
+
+    return clean_x, clean_y
+
+
+def preprocess_data(
+    raw_x : Union[List, np.ndarray],
+    raw_y : Union[List, np.ndarray],
+    smoothing_filter : str = 'lowess'
+) -> Tuple:
+    """
+    Preprocess the raw data, applying an Unsupervised Outlier Detection and an Smoothing Filter.
+    """
+    # Get the outliers.
+    transformed_x, transformed_y = identify_outliers(
+        raw_x=raw_x , raw_y=raw_y
+    )
+    
+    # Smooth the curve.
+    if smoothing_filter == 'savitzky':
+        # Savitzky-Golay polynomial smoothering.
+        smoothered_y = savgol_filter(transformed_x, window_length=7, polyorder=3)
+    elif smoothing_filter == 'lowess':
+        # Locally Weighted Scatterplot Smoothing
+        smoothered_y =  lowess(
+            transformed_y, transformed_x, is_sorted=False, frac=0.15, it=0, return_sorted=False
+        )
+
+    return transformed_x, smoothered_y
