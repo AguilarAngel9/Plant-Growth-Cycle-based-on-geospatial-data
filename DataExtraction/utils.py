@@ -1,19 +1,18 @@
 # Data Processor Library.
 # Authors: THEFFFTKID.
 
+from mpl_toolkits.axes_grid1 import make_axes_locatable
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
+from datetime import datetime, timedelta
 from datetime import datetime
 import matplotlib.pyplot as plt
+import pandas as pd
 import numpy as np
 import rasterio
 import pathlib
-import re
-import matplotlib.gridspec as gridspec
-from mpl_toolkits.axes_grid1 import make_axes_locatable
-from datetime import datetime
-import pandas as pd
 import cv2
+import re
 
 
 def load_landsat_image(
@@ -59,7 +58,7 @@ def load_landsat_image(
 
 def convert_to_eight_bits(
     img: Union[Dict, None]
-) -> np.array:
+) -> np.ndarray:
     """
     To reescale image to 8 bits.
     """
@@ -104,9 +103,9 @@ def convert_dict_eight_bits(
 def display_rgb(
     img: Union[Dict, None], 
     title: str ='Landsat',
-    alpha=1., 
-    figsize=(5, 5)
-    ) -> np.array:
+    alpha: float = 1.0, 
+    figsize: Tuple =(5, 5)
+    ) -> np.ndarray:
     """
     Display the LANDSAT images as RGB images.
     """
@@ -174,13 +173,15 @@ def stack_to_dict(
                 stack[i][j][3]
             )
     
-    # Create
+    # Create.
     unstack_dict = {bands[i] : bands_lst[i]  for i in range(len(bands))}
             
     return unstack_dict
 
-def get_center_pixels(image_data: dict, 
-    square_shape=(3,3)) -> np.array:
+def get_center_pixels(
+    image_data: Dict, 
+    square_shape: Tuple = (3, 3)
+) -> np.ndarray:
     """
     Takes the center area of a picture of shape square_shape
     """
@@ -190,28 +191,44 @@ def get_center_pixels(image_data: dict,
     
     center = (round(h/2), round(w/2))
 
-    square = image_data[center[0]-cols:center[0]+cols, center[1]-rows:center[1]+rows]
+    square = image_data[
+        center[0] - cols : center[0] + cols,
+        center[1] - rows : center[1] + rows
+    ]
 
-    cv2.rectangle(drawing, (center[0]-cols, center[1]-rows), (center[0]+cols, center[1]+rows), (255, 255, 255))
+    cv2.rectangle(
+        drawing
+        , (center[0]-cols, center[1]-rows)
+        , (center[0]+cols, center[1]+rows)
+        , (255, 255, 255)
+    )
+
     plt.imshow(drawing)
 
     return square
 
-def calculate_ndvi(image_data,
-    square_shape=(3,3),
-    visualize=True) -> np.array:
-    
+def calculate_ndvi(
+    image_data: Union[Dict, None],
+    square_shape: Tuple = (3, 3),
+    visualize: bool = False
+) -> np.ndarray:
+    """
+    Implementation of the Normalized Difference Vegetation Index (NDVI).
+    """
+    # Get the shape of the interest zone.
     h, l = square_shape
-    b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
-    b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
+    # Reshape the arrays.
+    b4 = np.array(image_data["B4"]).reshape(2*h, 2*l, 1)
+    b8 = np.array(image_data["B8"]).reshape(2*h, 2*l, 1)
 
+    # Cast the values to float.
     visr = b4.astype("float64")
     nir = b8.astype("float64")
 
-    ndvi_matrix=np.where((nir+visr)==0., 0, (nir-visr)/(nir+visr))
+    # Calculate the NDVI over the matrix.
+    ndvi_matrix = np.where((nir+visr)==0.0, 0, (nir-visr)/(nir+visr))
 
-    if visualize == True:
-    
+    if visualize:
         fig, ax = plt.subplots()
         divider = make_axes_locatable(ax)
         cax = divider.append_axes('right', size='5%', pad=0.05)
@@ -222,22 +239,29 @@ def calculate_ndvi(image_data,
 
     return ndvi_matrix
 
-def calculate_wdrvi(image_data: dict,
-    square_shape=(3,3),
-    a=0.1,
-    visualize=True) -> np.array:
-
+def calculate_wdrvi(
+    image_data: Union[Dict, None],
+    square_shape: Tuple = (3,3),
+    a: float = 0.1,
+    visualize: bool = False
+) -> np.ndarray:
+    """
+    Implemenation of the Wide Dynamic Range Vegetation Index (WDRI).
+    """
+    # Get the shape of the interest zone.
     h, l = square_shape
+    # Reshape the arrays.
     b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
     b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
-
+    
+    # Cast the values to float.
     visr = b4.astype("float64")
     nir = b8.astype("float64")
-
-    wdrvi_matrix=np.where((nir+visr)==0., 0, (a*nir-visr)/(a*nir+visr))
     
-    if visualize == True:
-
+    # Calculate the WDRVI over the matrix
+    wdrvi_matrix = np.where((nir+visr)==0., 0, (a*nir-visr)/(a*nir+visr))
+    
+    if visualize:
         fig, ax = plt.subplots()
         divider = make_axes_locatable(ax)
         cax = divider.append_axes('right', size='5%', pad=0.05)
@@ -248,22 +272,29 @@ def calculate_wdrvi(image_data: dict,
 
     return wdrvi_matrix
 
-def calculate_savi(image_data: dict,
-    square_shape=(3,3),
-    L=0.5,
-    visualize=True) -> np.array:
-
+def calculate_savi(
+    image_data: Union[Dict, None],
+    square_shape: Tuple = (3,3),
+    L: float = 0.5,
+    visualize = False
+) -> np.ndarray:
+    """
+    Implemenation of the Soil Adjusted Vegetation Index (SAVI).
+    """
+    # Get the shape of the interest zone.
     h, l = square_shape
-    b4 = np.array(image_data["B4"]).reshape(2*h,2*l,1)
-    b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
-
+    # Reshape the arrays.
+    b4 = np.array(image_data["B4"]).reshape(2*h, 2*l, 1)
+    b8 = np.array(image_data["B8"]).reshape(2*h, 2*l, 1)
+    
+    # Cast the values to float.
     visr = b4.astype("float64")
     nir = b8.astype("float64")
 
+    # Calculate the SAVI over the matrix
     savi_matrix=np.where((visr+nir + L)==0., 0, ((nir-visr)/(visr+nir + L) ) * (1+L))
 
-    if visualize == True:
-
+    if visualize:
         fig, ax = plt.subplots()
         divider = make_axes_locatable(ax)
         cax = divider.append_axes('right', size='5%', pad=0.05)
@@ -275,21 +306,28 @@ def calculate_savi(image_data: dict,
 
     return savi_matrix
 
-def calculate_gci(image_data: dict,
-    square_shape=(3,3),
-    visualize=True) -> np.array:
-
+def calculate_gci(
+    image_data: Dict,
+    square_shape: Tuple = (3, 3),
+    visualize: bool = False
+) -> np.ndarray:
+    """
+    Implemenation of the Wide Green Chlorophyll Index (GCI).
+    """
+    # Get the shape of the interest zone.
     h, l = square_shape
+    # Reshape the arrays.
     b3 = np.array(image_data["B3"]).reshape(2*h,2*l,1)
     b8 = np.array(image_data["B8"]).reshape(2*h,2*l,1)
-
+    
+    # Cast the values to float.
     visg = b3.astype('float64')
     nir = b8.astype('float64')
+    
+    # Calculate the GCI over the matrix
+    gci_matrix = np.where((visg)==0.0, 0, (nir)/(visg) - 1)
 
-    gci_matrix=np.where((visg)==0., 0, (nir)/(visg) - 1)
-
-    if visualize == True:
-
+    if visualize:
         fig, ax = plt.subplots()
         divider = make_axes_locatable(ax)
         cax = divider.append_axes('right', size='5%', pad=0.05)
@@ -299,71 +337,147 @@ def calculate_gci(image_data: dict,
 
     return gci_matrix
 
-def calculate_index_avg(index_matrix: np.array) -> int:
-    return index_matrix.flatten().sum()/len(index_matrix.flatten())
+def calculate_index_avg(
+    index_matrix: np.ndarray
+) -> float:
+    """
+    Get the average of the matrix calculated index.
+    """
+    index_avg = index_matrix.flatten().sum()/len(index_matrix.flatten())
+    return index_avg
 
-def generate_ndvi_time_series(images: dict) -> list:
+def generate_ndvi_time_series(
+    images: Union[Dict, None]
+) -> List:
+    """
+    Calculate the NDVI time series for a given dict of images.
+    """
+    # NDVI time series.
+    ndvi_values = []
 
-    values = []
-
+    # Iterate over the dictionary.
     for image in sort_dict_by_date(images):
+        # Transform the current image to 8-bits.
         img = convert_to_eight_bits(images[image])
+        # Get the center (l x l) of the current image.
         representative_region = get_center_pixels(img)
+        # Unstack the current np.stack to dict.
         representative_region_bands = stack_to_dict(representative_region)
+        # Calculate the NDVI over the region.
         index_calculation = calculate_ndvi(representative_region_bands)
+        # Get the average value over the selected area.
         average = calculate_index_avg(index_calculation)
 
-        values.append(average)
+        ndvi_values.append(average)
 
-    return values
+    return ndvi_values
 
-def generate_savi_time_series(images: dict) -> list:
-
-    values = []
-
-    for image in sort_dict_by_date(images):
-        img = convert_to_eight_bits(images[image])
-        representative_region = get_center_pixels(img)
-        representative_region_bands = stack_to_dict(representative_region)
-        index_calculation = calculate_savi(representative_region_bands)
-        average = calculate_index_avg(index_calculation)
-
-        values.append(average)
-
-    return values
-
-def generate_gci_time_series(images: dict) -> list:
-
-
-    values = []
-
-    for image in sort_dict_by_date(images):
-        img = convert_to_eight_bits(images[image])
-        representative_region = get_center_pixels(img)
-        representative_region_bands = stack_to_dict(representative_region)
-        index_calculation = calculate_gci(representative_region_bands)
-        average = calculate_index_avg(index_calculation)
-
-        values.append(average)
-    #normalization
-    norm = [float(i)/max(values) for i in values] 
-    return norm
-
-def generate_wdrvi_time_series(images: dict) -> list:
+def generate_savi_time_series(
+    images: Union[Dict, None]
+) -> List:
+    """
+    Calculate the SAVI time series for a given dict of images.
+    """
+    # SAVI time series.
+    savi_values = []
     
-
-    values = []
-
+    # Iterate over the dictionary.
     for image in sort_dict_by_date(images):
+        # Transform the current image to 8-bits.
         img = convert_to_eight_bits(images[image])
+        # Get the center (l x l) of the current image.
         representative_region = get_center_pixels(img)
+        # Unstack the current np.stack to dict.
         representative_region_bands = stack_to_dict(representative_region)
-        index_calculation = calculate_wdrvi(representative_region_bands)
+        # Calculate the SAVI over the region.
+        index_calculation = calculate_savi(representative_region_bands)
+        # Get the average value over the selected area.
         average = calculate_index_avg(index_calculation)
 
-        values.append(average)
-    #normalization
-    norm = [float(i)/max(values) for i in values] 
+        savi_values.append(average)
+
+    return savi_values
+
+def generate_gci_time_series(
+    images: Union[Dict, None]
+) -> List:
+    """
+    Calculate the GCI time series for a given dict of images.
+    """
+    # GCI time series.
+    gci_values = []
+
+    # Iterate over the dictionary.
+    for image in sort_dict_by_date(images):
+        # Transform the current image to 8-bits.
+        img = convert_to_eight_bits(images[image])
+        # Get the center (l x l) of the current image.
+        representative_region = get_center_pixels(img)
+        # Unstack the current np.stack to dict.
+        representative_region_bands = stack_to_dict(representative_region)
+        # Calculate the GCI over the region.
+        index_calculation = calculate_gci(representative_region_bands)
+        # Get the average value over the selected area.
+        average = calculate_index_avg(index_calculation)
+
+        gci_values.append(average)
+    
+    # Perform a normalization
+    norm = [float(i)/max(gci_values) for i in gci_values] 
     return norm
 
+def generate_wdrvi_time_series(
+    images: Union[Dict, None]
+) -> List:
+    """
+    Calculate the WDRVI time series for a given dict of images.
+    """
+    # WDRVI time series.
+    wdrvi_values = []
 
+    # Iterate over the dictionary.
+    for image in sort_dict_by_date(images):
+        # Transform the current image to 8-bits.
+        img = convert_to_eight_bits(images[image])
+        # Get the center (l x l) of the current image.
+        representative_region = get_center_pixels(img)
+        # Unstack the current np.stack to dict.
+        representative_region_bands = stack_to_dict(representative_region)
+        # Calculate the GCI over the region.
+        index_calculation = calculate_wdrvi(representative_region_bands)
+        # Get the average value over the selected area.
+        average = calculate_index_avg(index_calculation)
+
+        wdrvi_values.append(average)
+    
+    # Perform a normalization.
+    norm = [float(i)/max(wdrvi_values) for i in wdrvi_values] 
+    return norm
+
+def dates_to_day_numbers(
+    img_keys: List[str]
+) -> Tuple[List, List]:
+    """
+    Changes the images dates to the natural number day.
+    """
+    # List of dates.
+    dates_list = []
+
+    # Iterate over the key list.
+    for image_details in img_keys:
+        # Parse the date from the key.
+        date = pd.to_datetime(image_details[0:8])
+        # Format Y-m-d
+        day_format = date.strftime('%Y-%m-%d')
+        dates_list.append(day_format)
+    
+    dates_list.sort()
+
+    # List of numbers.
+    initial_date = datetime.strptime(dates_list[0], '%Y-%m-%d')
+    # Calculate the differences between the initial and the nexts days.
+    day_numbers = [datetime.strptime(day, '%Y-%m-%d') - initial_date for day in dates_list]
+    # Get the difference in days.
+    day_numbers = [day // timedelta(days=1) for day in day_numbers]
+
+    return day_numbers, dates_list
