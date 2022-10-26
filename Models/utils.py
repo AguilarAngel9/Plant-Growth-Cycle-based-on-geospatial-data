@@ -1,5 +1,5 @@
 # Data Processor Library.
-# Authors: THEFFFTKID.
+# Authors: THEFFTKID.
 
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -9,7 +9,10 @@ from skimage import exposure, img_as_ubyte
 from datetime import datetime, timedelta
 from scipy.signal import savgol_filter
 from operator import itemgetter
+from scipy import stats
+
 import matplotlib.pyplot as plt
+import statsmodels.api as sm
 import pandas as pd
 import numpy as np
 import rasterio
@@ -17,7 +20,7 @@ import pathlib
 import cv2
 import re
 
-
+#  Data collection and preprocession 
 def load_landsat_image(
     img_folder: Union[str, None],
     bands: Union[List[str], None]
@@ -48,7 +51,7 @@ def load_landsat_image(
         # Iterate over the bands.
         for band in bands:
             file = next(path.glob(f'*{pat}{band}.tif'))
-            print(f'Opening file {file}')
+            #print(f'Opening file {file}')
             ds = rasterio.open(file)
             image.update({band: ds.read(1)})
         # Update the main dict.
@@ -57,7 +60,6 @@ def load_landsat_image(
         )
 
     return images_dict
-
 
 def convert_to_eight_bits(
     img: Union[Dict, None]
@@ -74,7 +76,6 @@ def convert_to_eight_bits(
     )
     
     return scaled_img
-
 
 def convert_dict_eight_bits(
     images_dict: Union[Dict, None],
@@ -102,12 +103,11 @@ def convert_dict_eight_bits(
 
     return reescaled_images
 
-
 def display_rgb(
     img: Union[Dict, None], 
     title: str ='Landsat',
     alpha: float = 1.0, 
-    figsize: Tuple =(5, 5)
+    figsize: Tuple =(5,5)
     ) -> np.ndarray:
     """
     Display the LANDSAT images as RGB images.
@@ -126,8 +126,8 @@ def display_rgb(
 
     return rgb
 
-
 def sort_dict_by_date(
+
     images_dicts : Union[Dict, None]
 ) -> List:
     """
@@ -143,7 +143,6 @@ def sort_dict_by_date(
     keys_sorted_list = [key[0] for key in datetimes_list]
 
     return keys_sorted_list
-
 
 def stack_to_dict(
     stack: Union[np.stack, None],
@@ -181,9 +180,10 @@ def stack_to_dict(
             
     return unstack_dict
 
+# Get center pixels
 def get_center_pixels(
     image_data: Dict, 
-    square_shape: Tuple = (3, 3)
+    square_shape: Tuple = (10,10)
 ) -> np.ndarray:
     """
     Takes the center area of a picture of shape square_shape
@@ -210,9 +210,10 @@ def get_center_pixels(
 
     return square
 
+# Indices calculation and plots
 def calculate_ndvi(
     image_data: Union[Dict, None],
-    square_shape: Tuple = (3, 3),
+    square_shape: Tuple = (10,10),
     visualize: bool = False
 ) -> np.ndarray:
     """
@@ -244,7 +245,7 @@ def calculate_ndvi(
 
 def calculate_wdrvi(
     image_data: Union[Dict, None],
-    square_shape: Tuple = (3,3),
+    square_shape: Tuple = (10,10),
     a: float = 0.1,
     visualize: bool = False
 ) -> np.ndarray:
@@ -277,7 +278,7 @@ def calculate_wdrvi(
 
 def calculate_savi(
     image_data: Union[Dict, None],
-    square_shape: Tuple = (3,3),
+    square_shape: Tuple = (10,10),
     L: float = 0.5,
     visualize = False
 ) -> np.ndarray:
@@ -311,7 +312,7 @@ def calculate_savi(
 
 def calculate_gci(
     image_data: Dict,
-    square_shape: Tuple = (3, 3),
+    square_shape: Tuple = (10,10),
     visualize: bool = False
 ) -> np.ndarray:
     """
@@ -485,7 +486,7 @@ def dates_to_day_numbers(
 
     return day_numbers, dates_list
 
-
+# Curve smoothing
 def match_indexes(
     indexes: Union[List, None],
     array_to_match: Union[List, None]
@@ -505,7 +506,6 @@ def match_indexes(
         intersection = [intersection]
 
     return intersection
-
 
 def identify_outliers(
     raw_x: Union[List, np.ndarray],
@@ -543,7 +543,6 @@ def identify_outliers(
 
     return clean_x, clean_y
 
-
 def preprocess_data(
     raw_x : Union[List, np.ndarray],
     raw_y : Union[List, np.ndarray],
@@ -568,3 +567,4 @@ def preprocess_data(
         )
 
     return transformed_x, smoothered_y
+
