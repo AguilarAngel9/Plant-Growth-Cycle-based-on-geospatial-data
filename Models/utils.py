@@ -9,10 +9,8 @@ from skimage import exposure, img_as_ubyte
 from datetime import datetime, timedelta
 from scipy.signal import savgol_filter
 from operator import itemgetter
-from scipy import stats
 
 import matplotlib.pyplot as plt
-import statsmodels.api as sm
 import pandas as pd
 import numpy as np
 import rasterio
