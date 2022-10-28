@@ -568,3 +568,50 @@ def preprocess_data(
         )
 
     return transformed_x, smoothered_y
+
+    
+def data_extrator_temp(
+    data_tp,
+) -> Dict:
+    year_2019 = {}
+    year = 2019
+    # Temperature.
+    temperature = data_tp['stl1'].values.ravel()
+    # Precipitation.
+    precipitation = data_tp['tp'].values.ravel()
+
+    # Ordered month.
+    months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
+
+    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    for month in sorted(months):
+        #number of days in a month,
+        month_range = monthrange(year, month)[1]
+
+        #Generate days in the month.
+        days = [x + 1 for x in range(month_range)]
+
+        # number of temperature and precipitation data per day ().
+        n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
+
+        month_temp = {}
+
+        # Get the temp
+        for day in days:
+
+            #gives the value for temperature and precipitation per hour.
+            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_temperature]}
+
+            #Take the corresponding values per day for temperature and precipitation.
+            temperature = temperature[n_data:]
+            precipitation = precipitation[n_data:]
+
+            #Updates the dictionary and adds the previously calculated values.
+            month_temp.update(
+            {day : values_per_hour}
+            )
+        #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
+        year_2019.update({
+            month : month_temp
+        })
+    return year_2019
