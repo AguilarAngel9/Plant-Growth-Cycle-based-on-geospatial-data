@@ -16,6 +16,7 @@ import rasterio
 import pathlib
 import cv2
 import re
+from calendar import monthrange
 
 
 def load_landsat_image(
@@ -571,10 +572,11 @@ def preprocess_data(
 
     
 def data_extrator_temp(
-    data_tp,
+    data_tp: pd.xarray,
+    year: int
 ) -> Dict:
-    year_2019 = {}
-    year = 2019
+    
+    data_dict = {}
     # Temperature.
     temperature = data_tp['stl1'].values.ravel()
     # Precipitation.
@@ -611,7 +613,7 @@ def data_extrator_temp(
             {day : values_per_hour}
             )
         #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
-        year_2019.update({
+        data_dict.update({
             month : month_temp
         })
-    return year_2019
+    return data_dict
