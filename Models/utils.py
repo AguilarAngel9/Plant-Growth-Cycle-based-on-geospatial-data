@@ -9,7 +9,6 @@ from skimage import exposure, img_as_ubyte
 from datetime import datetime, timedelta
 from scipy.signal import savgol_filter
 from operator import itemgetter
-
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -17,6 +16,7 @@ import rasterio
 import pathlib
 import cv2
 import re
+from calendar import monthrange
 
 #  Data collection and preprocession 
 def load_landsat_image(
@@ -105,7 +105,7 @@ def display_rgb(
     img: Union[Dict, None], 
     title: str ='Landsat',
     alpha: float = 1.0, 
-    figsize: Tuple =(5,5)
+    figsize: Tuple =(5, 5)
     ) -> np.ndarray:
     """
     Display the LANDSAT images as RGB images.
@@ -181,7 +181,7 @@ def stack_to_dict(
 # Get center pixels
 def get_center_pixels(
     image_data: Dict, 
-    square_shape: Tuple = (10,10)
+    square_shape: Tuple = (3, 3)
 ) -> np.ndarray:
     """
     Takes the center area of a picture of shape square_shape
@@ -211,7 +211,7 @@ def get_center_pixels(
 # Indices calculation and plots
 def calculate_ndvi(
     image_data: Union[Dict, None],
-    square_shape: Tuple = (10,10),
+    square_shape: Tuple = (3, 3),
     visualize: bool = False
 ) -> np.ndarray:
     """
@@ -243,7 +243,7 @@ def calculate_ndvi(
 
 def calculate_wdrvi(
     image_data: Union[Dict, None],
-    square_shape: Tuple = (10,10),
+    square_shape: Tuple = (3,3),
     a: float = 0.1,
     visualize: bool = False
 ) -> np.ndarray:
@@ -276,7 +276,7 @@ def calculate_wdrvi(
 
 def calculate_savi(
     image_data: Union[Dict, None],
-    square_shape: Tuple = (10,10),
+    square_shape: Tuple = (3,3),
     L: float = 0.5,
     visualize = False
 ) -> np.ndarray:
@@ -310,7 +310,7 @@ def calculate_savi(
 
 def calculate_gci(
     image_data: Dict,
-    square_shape: Tuple = (10,10),
+    square_shape: Tuple = (3, 3),
     visualize: bool = False
 ) -> np.ndarray:
     """
@@ -456,23 +456,27 @@ def generate_wdrvi_time_series(
     norm = [float(i)/max(wdrvi_values) for i in wdrvi_values] 
     return norm
 
-def dates_to_day_numbers(
+def images_time_info(
     img_keys: List[str]
-) -> Tuple[List, List]:
+) -> Tuple[List, List, List]:
     """
-    Changes the images dates to the natural number day.
+    Changes the images dates to the natural number day after query begins.
+    Returns list of natural number days, list of dates, list of hours.
     """
-    # List of dates.
+    # Lists of dates and hours.
     dates_list = []
-
+    hours_list = []
     # Iterate over the key list.
     for image_details in img_keys:
         # Parse the date from the key.
-        date = pd.to_datetime(image_details[0:8])
+        date = pd.to_datetime(image_details[0:15])
         # Format Y-m-d
         day_format = date.strftime('%Y-%m-%d')
         dates_list.append(day_format)
-    
+        # Hours from images retrieved
+        hour_of_day = date.hour + (date.minute/60)
+        hours_list.append(hour_of_day)
+
     dates_list.sort()
 
     # List of numbers.
@@ -482,7 +486,9 @@ def dates_to_day_numbers(
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
 
-    return day_numbers, dates_list
+    #NOTA PARA MORGA (se borrará después): min,max(hours_list)=17,18
+    return day_numbers, dates_list, hours_list
+
 
 # Curve smoothing
 def match_indexes(
@@ -566,3 +572,50 @@ def preprocess_data(
 
     return transformed_x, smoothered_y
 
+    
+def data_extrator_temp(
+    data_tp: pd.xarray,
+    year: int
+) -> Dict:
+    
+    data_dict = {}
+    # Temperature.
+    temperature = data_tp['stl1'].values.ravel()
+    # Precipitation.
+    precipitation = data_tp['tp'].values.ravel()
+
+    # Ordered month.
+    months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
+
+    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    for month in sorted(months):
+        #number of days in a month,
+        month_range = monthrange(year, month)[1]
+
+        #Generate days in the month.
+        days = [x + 1 for x in range(month_range)]
+
+        # number of temperature and precipitation data per day ().
+        n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
+
+        month_temp = {}
+
+        # Get the temp
+        for day in days:
+
+            #gives the value for temperature and precipitation per hour.
+            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_temperature]}
+
+            #Take the corresponding values per day for temperature and precipitation.
+            temperature = temperature[n_data:]
+            precipitation = precipitation[n_data:]
+
+            #Updates the dictionary and adds the previously calculated values.
+            month_temp.update(
+            {day : values_per_hour}
+            )
+        #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
+        data_dict.update({
+            month : month_temp
+        })
+    return data_dict
