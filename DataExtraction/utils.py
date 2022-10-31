@@ -456,23 +456,27 @@ def generate_wdrvi_time_series(
     norm = [float(i)/max(wdrvi_values) for i in wdrvi_values] 
     return norm
 
-def dates_to_day_numbers(
+def images_time_info(
     img_keys: List[str]
-) -> Tuple[List, List]:
+) -> Tuple[List, List, List]:
     """
-    Changes the images dates to the natural number day.
+    Changes the images dates to the natural number day after query begins.
+    Returns list of natural number days, list of dates, list of hours.
     """
-    # List of dates.
+    # Lists of dates and hours.
     dates_list = []
-
+    hours_list = []
     # Iterate over the key list.
     for image_details in img_keys:
         # Parse the date from the key.
-        date = pd.to_datetime(image_details[0:8])
+        date = pd.to_datetime(image_details[0:15])
         # Format Y-m-d
         day_format = date.strftime('%Y-%m-%d')
         dates_list.append(day_format)
-    
+        # Hours from images retrieved
+        hour_of_day = date.hour + (date.minute/60)
+        hours_list.append(hour_of_day)
+
     dates_list.sort()
 
     # List of numbers.
@@ -482,7 +486,9 @@ def dates_to_day_numbers(
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
 
-    return day_numbers, dates_list
+    #NOTA PARA MORGA (se borrará después): min,max(hours_list)=17,18
+    return day_numbers, dates_list, hours_list
+
 
 # Curve smoothing
 def match_indexes(
