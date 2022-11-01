@@ -470,11 +470,10 @@ def images_time_info(
     for image_details in img_keys:
         # Parse the date from the key.
         date = pd.to_datetime(image_details[0:15])
-        # Format Y-m-d
         day_format = date.strftime('%Y-%m-%d')
         dates_list.append(day_format)
         # Hours from images retrieved
-        hour_of_day = date.hour + (date.minute/60)
+        hour_of_day = date.strftime('%H:%M')
         hours_list.append(hour_of_day)
 
     dates_list.sort()
@@ -485,7 +484,6 @@ def images_time_info(
     day_numbers = [datetime.strptime(day, '%Y-%m-%d') - initial_date for day in dates_list]
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
-
     #NOTA PARA MORGA (se borrará después): min,max(hours_list)=17,18
     return day_numbers, dates_list, hours_list
 
