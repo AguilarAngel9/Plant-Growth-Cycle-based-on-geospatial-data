@@ -1,5 +1,5 @@
 # Data Processor Library.
-# Authors: THEFFFTKID.
+# Authors: THEFFTKID.
 
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -16,8 +16,9 @@ import rasterio
 import pathlib
 import cv2
 import re
+from calendar import monthrange
 
-
+#  Data collection and preprocession 
 def load_landsat_image(
     img_folder: Union[str, None],
     bands: Union[List[str], None]
@@ -48,7 +49,7 @@ def load_landsat_image(
         # Iterate over the bands.
         for band in bands:
             file = next(path.glob(f'*{pat}{band}.tif'))
-            print(f'Opening file {file}')
+            #print(f'Opening file {file}')
             ds = rasterio.open(file)
             image.update({band: ds.read(1)})
         # Update the main dict.
@@ -57,7 +58,6 @@ def load_landsat_image(
         )
 
     return images_dict
-
 
 def convert_to_eight_bits(
     img: Union[Dict, None]
@@ -74,7 +74,6 @@ def convert_to_eight_bits(
     )
     
     return scaled_img
-
 
 def convert_dict_eight_bits(
     images_dict: Union[Dict, None],
@@ -102,7 +101,6 @@ def convert_dict_eight_bits(
 
     return reescaled_images
 
-
 def display_rgb(
     img: Union[Dict, None], 
     title: str ='Landsat',
@@ -126,8 +124,8 @@ def display_rgb(
 
     return rgb
 
-
 def sort_dict_by_date(
+
     images_dicts : Union[Dict, None]
 ) -> List:
     """
@@ -143,7 +141,6 @@ def sort_dict_by_date(
     keys_sorted_list = [key[0] for key in datetimes_list]
 
     return keys_sorted_list
-
 
 def stack_to_dict(
     stack: Union[np.stack, None],
@@ -181,6 +178,7 @@ def stack_to_dict(
             
     return unstack_dict
 
+# Get center pixels
 def get_center_pixels(
     image_data: Dict, 
     square_shape: Tuple = (3, 3)
@@ -210,6 +208,7 @@ def get_center_pixels(
 
     return square
 
+# Indices calculation and plots
 def calculate_ndvi(
     image_data: Union[Dict, None],
     square_shape: Tuple = (3, 3),
@@ -457,24 +456,31 @@ def generate_wdrvi_time_series(
     norm = [float(i)/max(wdrvi_values) for i in wdrvi_values] 
     return norm
 
-def dates_to_day_numbers(
+def images_time_info(
     img_keys: List[str]
-) -> Tuple[List, List]:
+) -> Tuple [List, List, List]:
     """
-    Changes the images dates to the natural number day.
+    Changes the images dates to the natural number day after query begins.
+    Returns list of natural number days, list of dates, list of hours.
     """
-    # List of dates.
+    # Lists of dates, hours and timestamps.
     dates_list = []
-
+    hours_list = []
+    timestamps_list = []
     # Iterate over the key list.
     for image_details in img_keys:
         # Parse the date from the key.
-        date = pd.to_datetime(image_details[0:8])
-        # Format Y-m-d
+        date = pd.to_datetime(image_details[0:15])
         day_format = date.strftime('%Y-%m-%d')
         dates_list.append(day_format)
-    
+        timestamps_list.append(date)
+        # Hours from images retrieved
+        hour_of_day = date.strftime('%H:%M')
+        hours_list.append(hour_of_day)
+
+    # Sorts.
     dates_list.sort()
+    timestamps_list.sort()
 
     # List of numbers.
     initial_date = datetime.strptime(dates_list[0], '%Y-%m-%d')
@@ -483,9 +489,10 @@ def dates_to_day_numbers(
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
 
-    return day_numbers, dates_list
+    return day_numbers, timestamps_list, hours_list
 
 
+# Curve smoothing
 def match_indexes(
     indexes: Union[List, None],
     array_to_match: Union[List, None]
@@ -505,7 +512,6 @@ def match_indexes(
         intersection = [intersection]
 
     return intersection
-
 
 def identify_outliers(
     raw_x: Union[List, np.ndarray],
@@ -543,7 +549,6 @@ def identify_outliers(
 
     return clean_x, clean_y
 
-
 def preprocess_data(
     raw_x : Union[List, np.ndarray],
     raw_y : Union[List, np.ndarray],
@@ -568,3 +573,79 @@ def preprocess_data(
         )
 
     return transformed_x, smoothered_y
+
+    
+def data_extrator_temp(
+    data_tp,
+    year: int
+) -> Dict:
+    
+    data_dict = {}
+    # Temperature.
+    temperature = data_tp['stl1'].values.ravel()
+    # Precipitation.
+    precipitation = data_tp['tp'].values.ravel()
+
+    # Ordered month.
+    months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
+
+    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    for month in sorted(months):
+        #number of days in a month,
+        month_range = monthrange(year, month)[1]
+
+        #Generate days in the month.
+        days = [x + 1 for x in range(month_range)]
+
+        # number of temperature and precipitation data per day ().
+        n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
+
+        month_temp = {}
+
+        # Get the temp
+        for day in days:
+
+            #gives the value for temperature and precipitation per hour.
+            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
+
+            #Take the corresponding values per day for temperature and precipitation.
+            temperature = temperature[n_data:]
+            precipitation = precipitation[n_data:]
+
+            #Updates the dictionary and adds the previously calculated values.
+            month_temp.update(
+            {day : values_per_hour}
+            )
+        #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
+        data_dict.update({
+            month : month_temp
+        })
+    return data_dict
+
+def get_temp_and_preci(
+    dict_from_temp_extractor: Dict,
+    timestamps_list : List
+) -> Tuple[List[float],List[float]]:
+    """
+    Retrieves values of temperature and precipitation from dictionary obtained by the API
+    according to the timestamps of our original images.
+    """
+    # Lists of precipitation and temperature.    
+    preci = []
+    temp = []
+    
+    # Iterate over the timestamps list.
+    for timestamp in timestamps_list:
+        try:
+            # Keys obtained to search in dict.
+            month,day = timestamp.month, timestamp.day
+            # Searches for data in dict.
+            t_data = float(dict_from_temp_extractor[month][day]['temperature'])
+            p_data = float(dict_from_temp_extractor[month][day]['precipitation'])
+            # Adds to lists.
+            temp.append(t_data)
+            preci.append(p_data)
+        
+        except:
+            break
+    return temp, preci
