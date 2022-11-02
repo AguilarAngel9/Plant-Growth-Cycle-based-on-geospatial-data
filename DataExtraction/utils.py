@@ -458,25 +458,29 @@ def generate_wdrvi_time_series(
 
 def images_time_info(
     img_keys: List[str]
-) -> Tuple[List, List, List]:
+) -> Tuple [List, List, List]:
     """
     Changes the images dates to the natural number day after query begins.
     Returns list of natural number days, list of dates, list of hours.
     """
-    # Lists of dates and hours.
+    # Lists of dates, hours and timestamps.
     dates_list = []
     hours_list = []
+    timestamps_list = []
     # Iterate over the key list.
     for image_details in img_keys:
         # Parse the date from the key.
         date = pd.to_datetime(image_details[0:15])
         day_format = date.strftime('%Y-%m-%d')
         dates_list.append(day_format)
+        timestamps_list.append(date)
         # Hours from images retrieved
         hour_of_day = date.strftime('%H:%M')
         hours_list.append(hour_of_day)
 
+    # Sorts.
     dates_list.sort()
+    timestamps_list.sort()
 
     # List of numbers.
     initial_date = datetime.strptime(dates_list[0], '%Y-%m-%d')
@@ -484,8 +488,8 @@ def images_time_info(
     day_numbers = [datetime.strptime(day, '%Y-%m-%d') - initial_date for day in dates_list]
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
-    #NOTA PARA MORGA (se borrará después): min,max(hours_list)=17,18
-    return day_numbers, dates_list, hours_list
+
+    return day_numbers, timestamps_list, hours_list
 
 
 # Curve smoothing
@@ -602,7 +606,7 @@ def data_extrator_temp(
         for day in days:
 
             #gives the value for temperature and precipitation per hour.
-            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_temperature]}
+            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
 
             #Take the corresponding values per day for temperature and precipitation.
             temperature = temperature[n_data:]
@@ -617,3 +621,31 @@ def data_extrator_temp(
             month : month_temp
         })
     return data_dict
+
+def get_temp_and_preci(
+    dict_from_temp_extractor: Dict,
+    timestamps_list : List
+) -> Tuple[List[float],List[float]]:
+    """
+    Retrieves values of temperature and precipitation from dictionary obtained by the API
+    according to the timestamps of our original images.
+    """
+    # Lists of precipitation and temperature.    
+    preci = []
+    temp = []
+    
+    # Iterate over the timestamps list.
+    for timestamp in timestamps_list:
+        try:
+            # Keys obtained to search in dict.
+            month,day = timestamp.month, timestamp.day
+            # Searches for data in dict.
+            t_data = float(dict_from_temp_extractor[month][day]['temperature'])
+            p_data = float(dict_from_temp_extractor[month][day]['precipitation'])
+            # Adds to lists.
+            temp.append(t_data)
+            preci.append(p_data)
+        
+        except:
+            break
+    return temp, preci
