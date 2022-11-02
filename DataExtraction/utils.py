@@ -6,6 +6,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
+from scipy.interpolate import CubicSpline
 from datetime import datetime, timedelta
 from scipy.signal import savgol_filter
 from operator import itemgetter
@@ -532,7 +533,7 @@ def identify_outliers(
         contamination=outliers_fraction
     )
 
-    # Fit & Predict the raw data.
+    # Fit and predict the raw data.
     new_data = outliers_model.fit_predict(
         reshaped_y
     )
@@ -544,6 +545,7 @@ def identify_outliers(
     # Get the indexes of the good values.
     clean_ind = [index for index, value in enumerate(new_data) if value == 1]
     clean_y = match_indexes(clean_ind, raw_y)
+
     # Get the x values.
     clean_x = match_indexes(clean_ind, raw_x)
 
@@ -574,58 +576,64 @@ def preprocess_data(
 
     return transformed_x, smoothered_y
 
-    
 def data_extrator_temp(
     data_tp,
     year: int
 ) -> Dict:
-    
+    # Output.
     data_dict = {}
+    
     # Temperature.
     temperature = data_tp['stl1'].values.ravel()
+
     # Precipitation.
     precipitation = data_tp['tp'].values.ravel()
 
     # Ordered month.
     months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
 
-    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    # Iteration to aggregate the corresponding values per month
+    # (day and temp values are added),
     for month in sorted(months):
-        #number of days in a month,
+
+        # Number of days in a month,
         month_range = monthrange(year, month)[1]
 
-        #Generate days in the month.
+        # Generate days in the month.
         days = [x + 1 for x in range(month_range)]
 
-        # number of temperature and precipitation data per day ().
+        # Number of temperature and precipitation data per day.
         n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
 
         month_temp = {}
 
-        # Get the temp
+        # Get the temp.
         for day in days:
 
-            #gives the value for temperature and precipitation per hour.
+            # Gives the value for temperature and precipitation per hour.
             values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
 
-            #Take the corresponding values per day for temperature and precipitation.
+            # Take the corresponding values per day for temperature and precipitation.
             temperature = temperature[n_data:]
             precipitation = precipitation[n_data:]
 
-            #Updates the dictionary and adds the previously calculated values.
+            # Updates the dictionary and adds the previously calculated values.
             month_temp.update(
-            {day : values_per_hour}
+                {day : values_per_hour}
             )
-        #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
-        data_dict.update({
-            month : month_temp
-        })
+        
+        # Adds the information of months, days and their 
+        # temperature and precipitation data to the main dictionary.
+        data_dict.update(
+            {month : month_temp}
+        )
+
     return data_dict
 
 def get_temp_and_preci(
     dict_from_temp_extractor: Dict,
     timestamps_list : List
-) -> Tuple[List[float],List[float]]:
+) -> Tuple[List[float], List[float]]:
     """
     Retrieves values of temperature and precipitation from dictionary obtained by the API
     according to the timestamps of our original images.
@@ -638,7 +646,7 @@ def get_temp_and_preci(
     for timestamp in timestamps_list:
         try:
             # Keys obtained to search in dict.
-            month,day = timestamp.month, timestamp.day
+            month, day = timestamp.month, timestamp.day
             # Searches for data in dict.
             t_data = float(dict_from_temp_extractor[month][day]['temperature'])
             p_data = float(dict_from_temp_extractor[month][day]['precipitation'])
@@ -649,3 +657,19 @@ def get_temp_and_preci(
         except:
             break
     return temp, preci
+
+def interpolate_curve(
+    x: Union[List, np.ndarray],
+    y: Union[List, np.ndarray],
+    n_points: int = 100
+) -> Tuple[List]:
+    """
+    Function to interpolate the curve of the given a N expected points.
+    A 1D array are assumed and the boundary conditions of the second derivative
+    at curve ends are zero.  
+    """
+    f_x = CubicSpline(x, y, bc_type='natural')
+    x_new = np.linspace(min(x), max(x), n_points)
+    y_new = f_x(x_new)
+
+    return x_new, y_new
