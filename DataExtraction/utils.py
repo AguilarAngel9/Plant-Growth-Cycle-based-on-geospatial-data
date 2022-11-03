@@ -484,7 +484,7 @@ def images_time_info(
     timestamps_list.sort()
 
     # List of numbers.
-    initial_date = datetime.strptime(dates_list[0], '%Y-%m-%d')
+    initial_date = datetime.strptime(str(year) +"-04-01", '%Y-%m-%d')
     # Calculate the differences between the initial and the nexts days.
     day_numbers = [datetime.strptime(day, '%Y-%m-%d') - initial_date for day in dates_list]
     # Get the difference in days.
@@ -576,58 +576,72 @@ def preprocess_data(
 
     return transformed_x, smoothered_y
 
+def interpolate_curve(
+    x: Union[List, np.ndarray],
+    y: Union[List, np.ndarray],
+    n_points: int = 100
+) -> Tuple[List]:
+    """
+    Function to interpolate the curve of the given a N expected points.
+    A 1D array are assumed and the boundary conditions of the second derivative
+    at curve ends are zero.  
+    """
+    f_x = CubicSpline(x, y, bc_type='natural')
+    x_new = np.linspace(min(x), max(x), n_points)
+    y_new = f_x(x_new)
+
+    return x_new, y_new
+
 def data_extrator_temp(
     data_tp,
-    year: int
+    years: List[int]
 ) -> Dict:
-    # Output.
-    data_dict = {}
     
+    data_dict = {}
     # Temperature.
     temperature = data_tp['stl1'].values.ravel()
-
     # Precipitation.
     precipitation = data_tp['tp'].values.ravel()
 
     # Ordered month.
     months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
 
-    # Iteration to aggregate the corresponding values per month
-    # (day and temp values are added),
-    for month in sorted(months):
+    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    for year in years:
+        year_temp = {}
+        for month in sorted(months):
+            #number of days in a month,
+            month_range = monthrange(year, month)[1]
 
-        # Number of days in a month,
-        month_range = monthrange(year, month)[1]
+            #Generate days in the month.
+            days = [x + 1 for x in range(month_range)]
 
-        # Generate days in the month.
-        days = [x + 1 for x in range(month_range)]
+            # number of temperature and precipitation data per day ().
+            n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
 
-        # Number of temperature and precipitation data per day.
-        n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
+            month_temp = {}
 
-        month_temp = {}
+            # Get the temp
+            for day in days:
 
-        # Get the temp.
-        for day in days:
+                #gives the value for temperature and precipitation per hour.
+                values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
 
-            # Gives the value for temperature and precipitation per hour.
-            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
+                #Take the corresponding values per day for temperature and precipitation.
+                temperature = temperature[n_data:]
+                precipitation = precipitation[n_data:]
 
-            # Take the corresponding values per day for temperature and precipitation.
-            temperature = temperature[n_data:]
-            precipitation = precipitation[n_data:]
-
-            # Updates the dictionary and adds the previously calculated values.
-            month_temp.update(
+                #Updates the dictionary and adds the previously calculated values.
+                month_temp.update(
                 {day : values_per_hour}
-            )
-        
-        # Adds the information of months, days and their 
-        # temperature and precipitation data to the main dictionary.
-        data_dict.update(
-            {month : month_temp}
-        )
-
+                )
+            #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
+            year_temp.update({
+                month : month_temp
+            })
+        data_dict.update({
+            year : year_temp
+        })
     return data_dict
 
 def get_temp_and_preci(
@@ -646,10 +660,10 @@ def get_temp_and_preci(
     for timestamp in timestamps_list:
         try:
             # Keys obtained to search in dict.
-            month, day = timestamp.month, timestamp.day
+            year,month,day = timestamp.year, timestamp.month, timestamp.day
             # Searches for data in dict.
-            t_data = float(dict_from_temp_extractor[month][day]['temperature'])
-            p_data = float(dict_from_temp_extractor[month][day]['precipitation'])
+            t_data = float(dict_from_temp_extractor[year][month][day]['temperature'])
+            p_data = float(dict_from_temp_extractor[year][month][day]['precipitation'])
             # Adds to lists.
             temp.append(t_data)
             preci.append(p_data)
@@ -657,19 +671,3 @@ def get_temp_and_preci(
         except:
             break
     return temp, preci
-
-def interpolate_curve(
-    x: Union[List, np.ndarray],
-    y: Union[List, np.ndarray],
-    n_points: int = 100
-) -> Tuple[List]:
-    """
-    Function to interpolate the curve of the given a N expected points.
-    A 1D array are assumed and the boundary conditions of the second derivative
-    at curve ends are zero.  
-    """
-    f_x = CubicSpline(x, y, bc_type='natural')
-    x_new = np.linspace(min(x), max(x), n_points)
-    y_new = f_x(x_new)
-
-    return x_new, y_new
