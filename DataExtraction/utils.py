@@ -458,11 +458,13 @@ def generate_wdrvi_time_series(
     return norm
 
 def images_time_info(
-    img_keys: List[str]
+    img_keys: List[str],
+    initial_date,
 ) -> Tuple [List, List, List]:
     """
     Changes the images dates to the natural number day after query begins.
     Returns list of natural number days, list of dates, list of hours.
+    Initial date must be in datetime.date(Y,m,d) format.
     """
     # Lists of dates, hours and timestamps.
     dates_list = []
@@ -481,17 +483,16 @@ def images_time_info(
 
     # Sorts.
     dates_list.sort()
-    timestamps_list.sort()
+
 
     # List of numbers.
-    initial_date = datetime.strptime(str(year) +"-04-01", '%Y-%m-%d')
+    initial_date = datetime(timestamps_list[0].year, initial_date.month, initial_date.day)
     # Calculate the differences between the initial and the nexts days.
     day_numbers = [datetime.strptime(day, '%Y-%m-%d') - initial_date for day in dates_list]
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
 
-    return day_numbers, timestamps_list, hours_list
-
+    return day_numbers, sorted(timestamps_list), hours_list
 
 # Curve smoothing
 def match_indexes(
