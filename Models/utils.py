@@ -17,6 +17,7 @@ import pathlib
 import cv2
 import re
 from calendar import monthrange
+from scipy.interpolate import CubicSpline
 
 #  Data collection and preprocession 
 def load_landsat_image(
