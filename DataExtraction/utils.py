@@ -6,6 +6,7 @@ from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
+from scipy.interpolate import CubicSpline
 from datetime import datetime, timedelta
 from scipy.signal import savgol_filter
 from operator import itemgetter
@@ -532,7 +533,7 @@ def identify_outliers(
         contamination=outliers_fraction
     )
 
-    # Fit & Predict the raw data.
+    # Fit and predict the raw data.
     new_data = outliers_model.fit_predict(
         reshaped_y
     )
@@ -544,6 +545,7 @@ def identify_outliers(
     # Get the indexes of the good values.
     clean_ind = [index for index, value in enumerate(new_data) if value == 1]
     clean_y = match_indexes(clean_ind, raw_y)
+
     # Get the x values.
     clean_x = match_indexes(clean_ind, raw_x)
 
@@ -574,7 +576,22 @@ def preprocess_data(
 
     return transformed_x, smoothered_y
 
-    
+def interpolate_curve(
+    x: Union[List, np.ndarray],
+    y: Union[List, np.ndarray],
+    n_points: int = 100
+) -> Tuple[List]:
+    """
+    Function to interpolate the curve of the given a N expected points.
+    A 1D array are assumed and the boundary conditions of the second derivative
+    at curve ends are zero.  
+    """
+    f_x = CubicSpline(x, y, bc_type='natural')
+    x_new = np.linspace(min(x), max(x), n_points)
+    y_new = f_x(x_new)
+
+    return x_new, y_new
+
 def data_extrator_temp(
     data_tp,
     years: List[int]
@@ -591,9 +608,7 @@ def data_extrator_temp(
 
     #Iteration to aggregate the corresponding values per month(day and temp values are added),
     for year in years:
-
         year_temp = {}
-        
         for month in sorted(months):
             #number of days in a month,
             month_range = monthrange(year, month)[1]
@@ -632,7 +647,7 @@ def data_extrator_temp(
 def get_temp_and_preci(
     dict_from_temp_extractor: Dict,
     timestamps_list : List
-) -> Tuple[List[float],List[float]]:
+) -> Tuple[List[float], List[float]]:
     """
     Retrieves values of temperature and precipitation from dictionary obtained by the API
     according to the timestamps of our original images.
