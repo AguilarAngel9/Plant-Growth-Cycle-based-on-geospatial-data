@@ -591,7 +591,9 @@ def data_extrator_temp(
 
     #Iteration to aggregate the corresponding values per month(day and temp values are added),
     for year in years:
+
         year_temp = {}
+        
         for month in sorted(months):
             #number of days in a month,
             month_range = monthrange(year, month)[1]
