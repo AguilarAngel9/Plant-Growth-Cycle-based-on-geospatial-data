@@ -1,5 +1,5 @@
 # Data Processor Library.
-# Authors: THEFFTKID.
+# Authors: THEFFTKID, MauricioH22.
 
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
@@ -574,7 +574,7 @@ def preprocess_data(
 
     
 def data_extrator_temp(
-    data_tp: pd.xarray,
+    data_tp,
     year: int
 ) -> Dict:
     
