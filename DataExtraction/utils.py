@@ -7,13 +7,15 @@ from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
 from scipy.interpolate import CubicSpline
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta,date
 from scipy.signal import savgol_filter
 from operator import itemgetter
 import matplotlib.pyplot as plt
 import pandas as pd
+import xarray as xr
 import numpy as np
 import rasterio
+import cdsapi
 import pathlib
 import cv2
 import re
@@ -672,3 +674,72 @@ def get_temp_and_preci(
         except:
             break
     return temp, preci
+
+#Temperature and precipitation   
+def date_range(date_min, date_max):
+#Function that returns a the days between two dates (the inicial date and the las date)
+    #generate a for to iterate through the correct range of dates.
+    for difference_between_dates in range(int ((date_max - date_min).days)+1):
+        #Use yield to return the dates given by the difference starting at date_min and ending at date_max
+        yield date_min + timedelta(difference_between_dates)
+
+def temperature_precipitation_api(date_min, date_max):
+    #Function that fetches temperature and precipitation data from the API
+    #Create the dictionary to store the dates.
+    date_dic={}
+    year_list=[]
+    month_list=[]
+    day_list=[]
+    hour_list=[]
+    #Iterate in the range of the created dates 
+    for dt in date_range(date_min, date_max):
+        #Add only the year values. 
+        year_list.append((dt.strftime("%Y")))
+        #Add only the month values 
+        month_list.append((dt.strftime("%m")))
+        #Add only the values for the day 
+        day_list.append((dt.strftime("%d")))
+        #Add only the values for the hour
+        hour_list.append((dt.strftime("%H:%M")))
+    #Update the dictionary and add the total dates without repetition
+    date_dic.update({
+            'year' : sorted(set(year_list)),
+            'month' : sorted(set(month_list)),
+            'day' : sorted(set(day_list)),
+            'hour':sorted(set(hour_list))
+
+        })
+    
+    #start the API to collect data
+    #REMINDER: IT IS IMPORTANT TO HAVE THE .cdsapirc FILE FOR THE API TO WORK
+    c = cdsapi.Client()
+
+    #The api is sent to be called with the values we want.
+    c.retrieve(
+        'reanalysis-era5-single-levels',
+        {
+            'product_type': 'reanalysis',
+            'variable': [
+                'soil_temperature_level_1', 'total_precipitation',
+            ],
+            'year': date_dic['year']
+            ,
+            'month': date_dic['month']
+            ,
+            'day': date_dic['day']
+            ,
+            'time': [
+                '17:00', 
+                #13
+            ],
+            'area': [
+                
+                38.1445082027146, -97.72654627101196, 38.142173460759004,
+                -97.72096882266754,
+            ],
+            'format': 'netcdf',
+        },
+        'download.nc')
+    #The API throws our data collection (temperature and precipitation) and we read it into data_tp.
+    data_tp= xr.open_dataset('download.nc')
+    return data_tp
