@@ -1,12 +1,11 @@
 # Data Processor Library.
-# Authors: THEFFTKID.
+# Authors: THEFFTKID, MauricioH22.
 
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
-from scipy.interpolate import CubicSpline
 from datetime import datetime, timedelta
 from scipy.signal import savgol_filter
 from operator import itemgetter
@@ -18,6 +17,7 @@ import pathlib
 import cv2
 import re
 from calendar import monthrange
+from scipy.interpolate import CubicSpline
 
 #  Data collection and preprocession 
 def load_landsat_image(
@@ -458,41 +458,36 @@ def generate_wdrvi_time_series(
     return norm
 
 def images_time_info(
-    img_keys: List[str],
-    initial_date,
-) -> Tuple [List, List, List]:
+    img_keys: List[str]
+) -> Tuple[List, List, List]:
     """
     Changes the images dates to the natural number day after query begins.
     Returns list of natural number days, list of dates, list of hours.
-    Initial date must be in datetime.date(Y,m,d) format.
     """
-    # Lists of dates, hours and timestamps.
+    # Lists of dates and hours.
     dates_list = []
     hours_list = []
-    timestamps_list = []
     # Iterate over the key list.
     for image_details in img_keys:
         # Parse the date from the key.
         date = pd.to_datetime(image_details[0:15])
         day_format = date.strftime('%Y-%m-%d')
         dates_list.append(day_format)
-        timestamps_list.append(date)
         # Hours from images retrieved
         hour_of_day = date.strftime('%H:%M')
         hours_list.append(hour_of_day)
 
-    # Sorts.
     dates_list.sort()
 
-
     # List of numbers.
-    initial_date = datetime(timestamps_list[0].year, initial_date.month, initial_date.day)
+    initial_date = datetime.strptime(dates_list[0], '%Y-%m-%d')
     # Calculate the differences between the initial and the nexts days.
     day_numbers = [datetime.strptime(day, '%Y-%m-%d') - initial_date for day in dates_list]
     # Get the difference in days.
     day_numbers = [day // timedelta(days=1) for day in day_numbers]
+    #NOTA PARA MORGA (se borrará después): min,max(hours_list)=17,18
+    return day_numbers, dates_list, hours_list
 
-    return day_numbers, sorted(timestamps_list), hours_list
 
 # Curve smoothing
 def match_indexes(
@@ -534,7 +529,7 @@ def identify_outliers(
         contamination=outliers_fraction
     )
 
-    # Fit and predict the raw data.
+    # Fit & Predict the raw data.
     new_data = outliers_model.fit_predict(
         reshaped_y
     )
@@ -546,7 +541,6 @@ def identify_outliers(
     # Get the indexes of the good values.
     clean_ind = [index for index, value in enumerate(new_data) if value == 1]
     clean_y = match_indexes(clean_ind, raw_y)
-
     # Get the x values.
     clean_x = match_indexes(clean_ind, raw_x)
 
@@ -577,6 +571,54 @@ def preprocess_data(
 
     return transformed_x, smoothered_y
 
+    
+def data_extrator_temp(
+    data_tp,
+    year: int
+) -> Dict:
+    
+    data_dict = {}
+    # Temperature.
+    temperature = data_tp['stl1'].values.ravel()
+    # Precipitation.
+    precipitation = data_tp['tp'].values.ravel()
+
+    # Ordered month.
+    months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
+
+    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    for month in sorted(months):
+        #number of days in a month,
+        month_range = monthrange(year, month)[1]
+
+        #Generate days in the month.
+        days = [x + 1 for x in range(month_range)]
+
+        # number of temperature and precipitation data per day ().
+        n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
+
+        month_temp = {}
+
+        # Get the temp
+        for day in days:
+
+            #gives the value for temperature and precipitation per hour.
+            values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_temperature]}
+
+            #Take the corresponding values per day for temperature and precipitation.
+            temperature = temperature[n_data:]
+            precipitation = precipitation[n_data:]
+
+            #Updates the dictionary and adds the previously calculated values.
+            month_temp.update(
+            {day : values_per_hour}
+            )
+        #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
+        data_dict.update({
+            month : month_temp
+        })
+    return data_dict
+
 def interpolate_curve(
     x: Union[List, np.ndarray],
     y: Union[List, np.ndarray],
@@ -593,7 +635,7 @@ def interpolate_curve(
 
     return x_new, y_new
 
-def data_extractor_temp(
+def data_extrator_temp(
     data_tp,
     years: List[int]
 ) -> Dict:
@@ -671,4 +713,4 @@ def get_temp_and_preci(
         
         except:
             break
-    return temp, preci
+    return temp, preci  
