@@ -3,13 +3,14 @@
 
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
+from datetime import datetime, timedelta,date
 from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
 from scipy.interpolate import CubicSpline
-from datetime import datetime, timedelta,date
 from scipy.signal import savgol_filter
 from operator import itemgetter
+from statistics import mean
 import matplotlib.pyplot as plt
 import pandas as pd
 import xarray as xr
@@ -480,10 +481,12 @@ def images_time_info(
         dates_list.append(day_format)
         timestamps_list.append(date)
         # Hours from images retrieved
-        hour_of_day = date.strftime('%H:%M')
-        hours_list.append(hour_of_day)
+        hour_of_day= date.round(freq='H')
+        hour_of_day = hour_of_day.strftime('%H:%M')
+        hours_list.append((hour_of_day))
 
     # Sorts.
+    hours_list=set(hours_list)
     dates_list.sort()
 
 
@@ -597,7 +600,7 @@ def interpolate_curve(
 
 def data_extrator_temp(
     data_tp,
-    years: List[int]
+    date_dict_api: Dict
 ) -> Dict:
     
     data_dict = {}
@@ -606,6 +609,9 @@ def data_extrator_temp(
     # Precipitation.
     precipitation = data_tp['tp'].values.ravel()
 
+    #Years to the data
+    years = date_dict_api['year']
+    years=[int(year) for year in years]
     # Ordered month.
     months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
 
@@ -633,10 +639,10 @@ def data_extrator_temp(
                 #Take the corresponding values per day for temperature and precipitation.
                 temperature = temperature[n_data:]
                 precipitation = precipitation[n_data:]
-
+                values_t_p={'temperature' : (values_per_hour['temperature'][0] + values_per_hour['temperature'][1])/2, 'precipitation' : (values_per_hour['precipitation'][0] + values_per_hour['precipitation'][1])/2}
                 #Updates the dictionary and adds the previously calculated values.
                 month_temp.update(
-                {day : values_per_hour}
+                {day : values_t_p}
                 )
             #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
             year_temp.update({
@@ -683,7 +689,7 @@ def date_range(date_min, date_max):
         #Use yield to return the dates given by the difference starting at date_min and ending at date_max
         yield date_min + timedelta(difference_between_dates)
 
-def temperature_precipitation_api(date_min, date_max):
+def temperature_precipitation_api(date_min, date_max,hours):
     #Function that fetches temperature and precipitation data from the API
     #Create the dictionary to store the dates.
     date_dic={}
@@ -706,7 +712,7 @@ def temperature_precipitation_api(date_min, date_max):
             'year' : sorted(set(year_list)),
             'month' : sorted(set(month_list)),
             'day' : sorted(set(day_list)),
-            'hour':sorted(set(hour_list))
+            'hour':sorted(list(hours))
 
         })
     
@@ -728,10 +734,8 @@ def temperature_precipitation_api(date_min, date_max):
             ,
             'day': date_dic['day']
             ,
-            'time': [
-                '17:00', 
-                #13
-            ],
+            'time': date_dic['hour']
+            ,
             'area': [
                 
                 38.1445082027146, -97.72654627101196, 38.142173460759004,
@@ -742,4 +746,11 @@ def temperature_precipitation_api(date_min, date_max):
         'download.nc')
     #The API throws our data collection (temperature and precipitation) and we read it into data_tp.
     data_tp= xr.open_dataset('download.nc')
-    return data_tp
+    return data_tp,date_dic
+
+def values_temp_precip(dict_data):
+    #Obtienes un numpy array de los datos de temperatura 
+    data_precipitation= np.array(dict_data['tp'])
+    #Obtienes un numpy array de los datos de precipitación
+    data_temperature=np.array(dict_data['stl1'])
+    return (data_precipitation, data_temperature)

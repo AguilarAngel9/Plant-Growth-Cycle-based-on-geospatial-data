@@ -1,5 +1,6 @@
 # Virtual env.
 venvpgc
+venvpgcw
 *.ipynb_checkpoints
 __pycache__
 
