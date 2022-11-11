@@ -599,14 +599,14 @@ def interpolate_curve(
     return x_new, y_new
 
 def data_extrator_temp(
-    data_tp,
-    date_dict_api: Dict
+    data_tp : xr.DataArray ,
+    date_dict_api : Dict
 ) -> Dict:
-    
+    #Create de Dic for the values and their dates
     data_dict = {}
-    # Temperature.
-    temperature = data_tp['stl1'].values.ravel()
-    # Precipitation.
+    # Obtain the temperature values.
+    temperature = data_tp['t2m'].values.ravel()
+    # Obtain the precipitation values.
     precipitation = data_tp['tp'].values.ravel()
 
     #Years to the data
@@ -634,12 +634,18 @@ def data_extrator_temp(
             for day in days:
 
                 #gives the value for temperature and precipitation per hour.
-                values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
+                values_per_hour = {'temperature' : temperature[0:n_data], 
+                'precipitation' : precipitation[0:n_data]}
 
                 #Take the corresponding values per day for temperature and precipitation.
                 temperature = temperature[n_data:]
+
                 precipitation = precipitation[n_data:]
-                values_t_p={'temperature' : (values_per_hour['temperature'][0] + values_per_hour['temperature'][1])/2, 'precipitation' : (values_per_hour['precipitation'][0] + values_per_hour['precipitation'][1])/2}
+
+                values_t_p={'temperature' : (values_per_hour['temperature'][0] + 
+                values_per_hour['temperature'][1])/2, 'precipitation' : 
+                (values_per_hour['precipitation'][0] + values_per_hour['precipitation'][1])/2}
+
                 #Updates the dictionary and adds the previously calculated values.
                 month_temp.update(
                 {day : values_t_p}
@@ -682,14 +688,22 @@ def get_temp_and_preci(
     return temp, preci
 
 #Temperature and precipitation   
-def date_range(date_min, date_max):
+def date_range(
+    date_min:datetime.date, 
+    date_max:datetime.date
+    ):
 #Function that returns a the days between two dates (the inicial date and the las date)
     #generate a for to iterate through the correct range of dates.
     for difference_between_dates in range(int ((date_max - date_min).days)+1):
-        #Use yield to return the dates given by the difference starting at date_min and ending at date_max
+        #Use yield to return the dates given by the difference starting at date_min 
+        # and ending at date_max
         yield date_min + timedelta(difference_between_dates)
 
-def temperature_precipitation_api(date_min, date_max,hours):
+def temperature_precipitation_api(
+    date_min:datetime.date, 
+    date_max:datetime.date,
+    hours: List
+    )-> Tuple[xr.Dataset, Dict]:
     #Function that fetches temperature and precipitation data from the API
     #Create the dictionary to store the dates.
     date_dic={}
@@ -726,7 +740,7 @@ def temperature_precipitation_api(date_min, date_max,hours):
         {
             'product_type': 'reanalysis',
             'variable': [
-                'soil_temperature_level_1', 'total_precipitation',
+                '2m_temperature', 'total_precipitation',
             ],
             'year': date_dic['year']
             ,
@@ -743,14 +757,38 @@ def temperature_precipitation_api(date_min, date_max,hours):
             ],
             'format': 'netcdf',
         },
-        'download.nc')
-    #The API throws our data collection (temperature and precipitation) and we read it into data_tp.
-    data_tp= xr.open_dataset('download.nc')
+        'dataCurrentTemperature.nc')
+    #The API throws our data collection (temperature and precipitation) 
+    #and we read it into data_tp.
+    data_tp= xr.open_dataset('dataCurrentTemperature.nc')
     return data_tp,date_dic
 
-def values_temp_precip(dict_data):
-    #Obtienes un numpy array de los datos de temperatura 
+def values_temp_precip(
+    dict_data: Dict
+    )-> List:
+    #Obtain a numpy array for temperature data 
     data_precipitation= np.array(dict_data['tp'])
-    #Obtienes un numpy array de los datos de precipitación
-    data_temperature=np.array(dict_data['stl1'])
+    #Obtain a numpy array for precipitation data
+    data_temperature=np.array(dict_data['t2m'])
     return (data_precipitation, data_temperature)
+
+def future_temperature_values(
+    lat:float,
+    lon:float
+    )-> Tuple[np.ndarray,np.ndarray]:
+    #Open the dataset that contain the temperature data for the future
+    data_temperature_future=xr.open_dataset('dataglobal.nc')
+    #Obtain the values for lat and lon that the data set has
+    lat_global=np.array(data_temperature_future.lat)
+    lon_global=np.array(data_temperature_future.lon)
+    #Save the location that looks more like the lat lon given
+    dif_lat=(np.absolute(lat_global-lat))
+    dif_lon=(np.absolute(lon_global-lon))
+    location_lat = dif_lat.argmin()
+    location_lon = dif_lon.argmin()
+    #Obtain the temperature data for this values (lat,lon)
+    Temperature_future=data_temperature_future.tas.isel(lat=location_lat,lon=location_lon)
+    #Separete the data for years
+    temperature_aprox_2022=np.array(Temperature_future[0:365])
+    temperature_aprox_2023=np.array(Temperature_future[365:])
+    return (temperature_aprox_2022, temperature_aprox_2023)
