@@ -748,7 +748,7 @@ def temperature_precipitation_api(
             'month': date_dic['month'],
             'day': date_dic['day'],
             'time': date_dic['hour'],
-            'area': [38.1445082027146, -97.72654627101196, 38.142173460759004, 97.72096882266754,],
+            'area': [38.1445082027146, -97.72654627101196, 38.142173460759004, -97.72096882266754,],
             'format': 'netcdf',
         },
         'dataTemperatureCurrent.nc'
