@@ -748,13 +748,13 @@ def temperature_precipitation_api(
             'month': date_dic['month'],
             'day': date_dic['day'],
             'time': date_dic['hour'],
-            'area': [38.1445082027146, -97.72654627101196, 38.142173460759004, 97.72096882266754,],
+            'area': [38.1445082027146, -97.72654627101196, 38.142173460759004, -97.72096882266754,],
             'format': 'netcdf',
         },
-        'dataCurrentTemperature.nc'
+        'dataTemperatureCurrent.nc'
     )
     # API payload. 
-    data_tp = xr.open_dataset('dataCurrentTemperature.nc')
+    data_tp = xr.open_dataset('dataTemperatureCurrent.nc')
     return data_tp, date_dic
 
 def values_temp_precip(
@@ -771,7 +771,7 @@ def future_temperature_values(
     lon: float
 )-> Tuple[np.ndarray, np.ndarray]:
     # Load the dataset for future temperature.
-    data_temperature_future = xr.open_dataset('dataglobal.nc')
+    data_temperature_future = xr.open_dataset('dataTemperatureFuture.nc')
     
     # Lat and lon values.
     lat_global=np.array(data_temperature_future.lat)
