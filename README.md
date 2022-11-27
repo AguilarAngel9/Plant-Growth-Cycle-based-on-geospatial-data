@@ -43,7 +43,13 @@ Winkler *et al* states that the vulnerability of perennial crops has not been in
 
 > The fruit crops most investigated are wine grapes, apple, cherry, citrus, peach, apricot, kiwi, mango, pear, pineapple, plum, and strawberry.
 
-Perennial crops are particularly vulnerable to cold damage at three distinct stages: **(1) in the fall before the tree is adequately hardened**, **(2) during the winter dormant period when severe cold events can cause injury to woody tissue**, and **(3) during spring when temperatures slightly below freezing may kill flower buds following the loss of cold hardiness** *(Raseira and Moore 1987)*.
+Perennial crops are particularly vulnerable to cold damage at three distinct stages:
+
+1. In the fall before the tree is adequately hardened.
+2. During the winter dormant period when severe cold events can cause injury to woody tissue
+3. During spring when temperatures slightly below freezing may kill flower buds following the loss of cold hardiness
+
+*(Raseira and Moore 1987)*.
 
 There are other problems that perennial crops have to face as a consequence of climate change, among which we can find winter chill fulfillment, springtime freeze risk, pollination constraints, heat stress, disease and insect pest damage.
 
@@ -106,10 +112,7 @@ Papers to read:
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169922002320
 - https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169918307166
 
-## Our buyer
-Find.
-
 ## The project as Climate Ai
-Climate AI currently has solutions available to its four main types of customers: *Processors and packers*, *Seed input and chemical companies*, *Agriculture Finance* and *Retailers, Co-ops, Crop Advisors*. Some of these products are mainly focused on predictions of the input of the crops, identification of optimal location for selected crops and forecasting of prices and demand of the product. Nevertheless, we identified that just one handles the plants life cycle and, as we believe, cares only about annual crops. Meanwhile, as *Winkler (2022)* states climate assessments for perennial crops heavily rely on empirical relationships developed between climate observations and plant phenology, and less frequently, between climate observations and yield.
+Climate AI currently has solutions available to its four main types of customers: *Processors and packers*, *Seed input and chemical companies*, *Agriculture Finance* and *Retailers, Co-ops, Crop Advisors*. Some of these products are mainly focused on predictions of the input of the crops, identification of optimal location for selected crops and forecasting of prices and demand of the product. Nevertheless, we identified that just one handles the plants life cycle and, as we believe, cares only about annual crops. 
 
-The project will be focused on the identification and monitoring of the perennial crop development through the lifecycle, giving special attention to the three phases seen in previously section [[Growth Phases](#Growth-phases)].
+For these reasons, the objective of this project is the prediction of the annual NDVI curves, which has proven to be a reliable indicator of the development of the life cycle of annual crops. Particularly, special attention is paid to the three phases seen in the previous section. [[Growth Phases](#Growth-phases)].

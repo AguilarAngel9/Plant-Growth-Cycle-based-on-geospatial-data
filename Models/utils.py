@@ -3,7 +3,7 @@
 
 from statsmodels.nonparametric.smoothers_lowess import lowess
 from mpl_toolkits.axes_grid1 import make_axes_locatable
-from datetime import datetime, timedelta,date
+from datetime import datetime, timedelta, date
 from sklearn.ensemble import IsolationForest
 from typing import Dict, List, Tuple, Union
 from skimage import exposure, img_as_ubyte
@@ -22,7 +22,6 @@ import cv2
 import re
 from calendar import monthrange
 
-#  Data collection and preprocession 
 def load_landsat_image(
     img_folder: Union[str, None],
     bands: Union[List[str], None]
@@ -53,7 +52,7 @@ def load_landsat_image(
         # Iterate over the bands.
         for band in bands:
             file = next(path.glob(f'*{pat}{band}.tif'))
-            #print(f'Opening file {file}')
+            # print(f'Opening file {file}')
             ds = rasterio.open(file)
             image.update({band: ds.read(1)})
         # Update the main dict.
@@ -80,25 +79,25 @@ def convert_to_eight_bits(
     return scaled_img
 
 def convert_dict_eight_bits(
-    images_dict: Union[Dict, None],
+    images_dict: Union[Dict, None]
 ) -> Dict:
     """
     Rescale each band to eigth bits.
     """
     reescaled_images = {}
-
+    # Iterate over the images.
     for key, img in images_dict.items():
         eight_bits_bands = {}
-        
+        # Iterate over the bands.
         for band in img.keys():
             rescaled_channel = img_as_ubyte(
                 exposure.rescale_intensity(img[band])
             )
-
+            # Add a reescaled band.
             eight_bits_bands.update(
                 {band : rescaled_channel}
             )
-        
+        # Update main dict.
         reescaled_images.update(
             {key : eight_bits_bands}
         )
@@ -110,7 +109,7 @@ def display_rgb(
     title: str ='Landsat',
     alpha: float = 1.0, 
     figsize: Tuple =(5, 5)
-    ) -> np.ndarray:
+) -> np.ndarray:
     """
     Display the LANDSAT images as RGB images.
     """
@@ -129,7 +128,6 @@ def display_rgb(
     return rgb
 
 def sort_dict_by_date(
-
     images_dicts : Union[Dict, None]
 ) -> List:
     """
@@ -182,25 +180,27 @@ def stack_to_dict(
             
     return unstack_dict
 
-# Get center pixels
 def get_center_pixels(
     image_data: Dict, 
     square_shape: Tuple = (3, 3)
 ) -> np.ndarray:
     """
-    Takes the center area of a picture of shape square_shape
+    Takes the center area of a squared-shape picture.
     """
+    # Deep copy the data.
     drawing = image_data.copy()
+    # Get the shape of the image.
     h, w, _ = image_data.shape
+    # Shape to crop.
     rows, cols = square_shape
     
     center = (round(h/2), round(w/2))
-
+    # Select the zone.
     square = image_data[
         center[0] - cols : center[0] + cols,
         center[1] - rows : center[1] + rows
     ]
-
+    # Draw the trimmed area.
     cv2.rectangle(
         drawing
         , (center[0]-cols, center[1]-rows)
@@ -212,7 +212,6 @@ def get_center_pixels(
 
     return square
 
-# Indices calculation and plots
 def calculate_ndvi(
     image_data: Union[Dict, None],
     square_shape: Tuple = (3, 3),
@@ -232,7 +231,9 @@ def calculate_ndvi(
     nir = b8.astype("float64")
 
     # Calculate the NDVI over the matrix.
-    ndvi_matrix = np.where((nir+visr)==0.0, 0, (nir-visr)/(nir+visr))
+    ndvi_matrix = np.where(
+        (nir + visr) == 0.0, 0, (nir - visr)/(nir + visr)
+    )
 
     if visualize:
         fig, ax = plt.subplots()
@@ -265,7 +266,9 @@ def calculate_wdrvi(
     nir = b8.astype("float64")
     
     # Calculate the WDRVI over the matrix
-    wdrvi_matrix = np.where((nir+visr)==0., 0, (a*nir-visr)/(a*nir+visr))
+    wdrvi_matrix = np.where(
+        (nir+visr) == 0., 0, (a * nir - visr)/(a * nir + visr)
+    )
     
     if visualize:
         fig, ax = plt.subplots()
@@ -298,7 +301,9 @@ def calculate_savi(
     nir = b8.astype("float64")
 
     # Calculate the SAVI over the matrix
-    savi_matrix=np.where((visr+nir + L)==0., 0, ((nir-visr)/(visr+nir + L) ) * (1+L))
+    savi_matrix=np.where(
+        (visr + nir + L) == 0., 0, ((nir - visr)/(visr + nir + L) ) * (1 + L)
+    )
 
     if visualize:
         fig, ax = plt.subplots()
@@ -331,7 +336,7 @@ def calculate_gci(
     nir = b8.astype('float64')
     
     # Calculate the GCI over the matrix
-    gci_matrix = np.where((visg)==0.0, 0, (nir)/(visg) - 1)
+    gci_matrix = np.where((visg) == 0.0, 0, (nir)/(visg) - 1)
 
     if visualize:
         fig, ax = plt.subplots()
@@ -462,17 +467,18 @@ def generate_wdrvi_time_series(
 
 def images_time_info(
     img_keys: List[str],
-    initial_date,
+    initial_date: date
 ) -> Tuple [List, List, List]:
     """
     Changes the images dates to the natural number day after query begins.
     Returns list of natural number days, list of dates, list of hours.
     Initial date must be in datetime.date(Y,m,d) format.
     """
-    # Lists of dates, hours and timestamps.
+    # Dates, hours and timestamps.
     dates_list = []
     hours_list = []
     timestamps_list = []
+
     # Iterate over the key list.
     for image_details in img_keys:
         # Parse the date from the key.
@@ -486,9 +492,8 @@ def images_time_info(
         hours_list.append((hour_of_day))
 
     # Sorts.
-    hours_list=set(hours_list)
+    hours_list = set(hours_list)
     dates_list.sort()
-
 
     # List of numbers.
     initial_date = datetime(timestamps_list[0].year, initial_date.month, initial_date.day)
@@ -499,7 +504,6 @@ def images_time_info(
 
     return day_numbers, sorted(timestamps_list), hours_list
 
-# Curve smoothing
 def match_indexes(
     indexes: Union[List, None],
     array_to_match: Union[List, None]
@@ -558,8 +562,8 @@ def identify_outliers(
     return clean_x, clean_y
 
 def preprocess_data(
-    raw_x : Union[List, np.ndarray],
-    raw_y : Union[List, np.ndarray],
+    raw_x: Union[List, np.ndarray],
+    raw_y: Union[List, np.ndarray],
     smoothing_filter : str = 'lowess'
 ) -> Tuple:
     """
@@ -599,63 +603,66 @@ def interpolate_curve(
     return x_new, y_new
 
 def data_extrator_temp(
-    data_tp,
+    data_tp: xr.DataArray ,
     date_dict_api: Dict
 ) -> Dict:
-    
+    # Create de dict for the values and their dates
     data_dict = {}
-    # Temperature.
-    temperature = data_tp['stl1'].values.ravel()
-    # Precipitation.
+    # Obtain the temperature values.
+    temperature = data_tp['t2m'].values.ravel()
+    # Obtain the precipitation values.
     precipitation = data_tp['tp'].values.ravel()
 
-    #Years to the data
+    # Years to the data.
     years = date_dict_api['year']
-    years=[int(year) for year in years]
+    years = [int(year) for year in years]
     # Ordered month.
     months = list(set([x.to_pydatetime().month for x  in data_tp['time'].to_series()]))
 
-    #Iteration to aggregate the corresponding values per month(day and temp values are added),
+    # Iteration to aggregate the corresponding values per month.
+    # Day and temperature values are added.
     for year in years:
         year_temp = {}
         for month in sorted(months):
-            #number of days in a month,
+            # Number of days in a month,
             month_range = monthrange(year, month)[1]
-
-            #Generate days in the month.
+            # Generate days in the month.
             days = [x + 1 for x in range(month_range)]
-
-            # number of temperature and precipitation data per day ().
+            # Number of temperature and precipitation data per day.
             n_data= len(set([x.to_pydatetime().hour for x  in data_tp['time'].to_series()]))
 
             month_temp = {}
 
-            # Get the temp
+            # Get the temperature.
             for day in days:
-
-                #gives the value for temperature and precipitation per hour.
-                values_per_hour = {'temperature' : temperature[0:n_data], 'precipitation' : precipitation[0:n_data]}
-
-                #Take the corresponding values per day for temperature and precipitation.
+                # Temperature and precipitation per hour.
+                values_per_hour = {
+                    'temperature' : temperature[0:n_data], 
+                    'precipitation' : precipitation[0:n_data]
+                }
+                # Take the corresponding values per day.
                 temperature = temperature[n_data:]
                 precipitation = precipitation[n_data:]
-                values_t_p={'temperature' : (values_per_hour['temperature'][0] + values_per_hour['temperature'][1])/2, 'precipitation' : (values_per_hour['precipitation'][0] + values_per_hour['precipitation'][1])/2}
-                #Updates the dictionary and adds the previously calculated values.
+                values_t_p = {
+                    'temperature' : np.mean(values_per_hour['temperature']) ,
+                    'precipitation' : np.mean(values_per_hour['precipitation'])
+                }
+                # Add the previously calculated values.
                 month_temp.update(
-                {day : values_t_p}
+                    {day : values_t_p}
                 )
-            #adds the information of months, days and their temperature and precipitation data  to the main dictionary.
-            year_temp.update({
-                month : month_temp
-            })
-        data_dict.update({
-            year : year_temp
-        })
+            # Months, days, temperature, precipitation data.
+            year_temp.update(
+                {month : month_temp}
+            )
+        data_dict.update(
+            {year : year_temp}
+        )
     return data_dict
 
 def get_temp_and_preci(
     dict_from_temp_extractor: Dict,
-    timestamps_list : List
+    timestamps_list: List
 ) -> Tuple[List[float], List[float]]:
     """
     Retrieves values of temperature and precipitation from dictionary obtained by the API
@@ -669,55 +676,66 @@ def get_temp_and_preci(
     for timestamp in timestamps_list:
         try:
             # Keys obtained to search in dict.
-            year,month,day = timestamp.year, timestamp.month, timestamp.day
+            year, month, day = timestamp.year, timestamp.month, timestamp.day
+            
             # Searches for data in dict.
             t_data = float(dict_from_temp_extractor[year][month][day]['temperature'])
             p_data = float(dict_from_temp_extractor[year][month][day]['precipitation'])
-            # Adds to lists.
+            
             temp.append(t_data)
             preci.append(p_data)
-        
         except:
             break
     return temp, preci
 
-#Temperature and precipitation   
-def date_range(date_min, date_max):
-#Function that returns a the days between two dates (the inicial date and the las date)
-    #generate a for to iterate through the correct range of dates.
-    for difference_between_dates in range(int ((date_max - date_min).days)+1):
-        #Use yield to return the dates given by the difference starting at date_min and ending at date_max
+def date_range(
+    date_min: date, 
+    date_max: date
+):
+    """
+    Function that returns a list of the days between two dates,
+    inicial date and last date.
+    """
+    for difference_between_dates in range(int((date_max - date_min).days) + 1):
+        # Dates starting at date min and ending at date max.
         yield date_min + timedelta(difference_between_dates)
 
-def temperature_precipitation_api(date_min, date_max,hours):
-    #Function that fetches temperature and precipitation data from the API
-    #Create the dictionary to store the dates.
-    date_dic={}
-    year_list=[]
-    month_list=[]
-    day_list=[]
-    hour_list=[]
-    #Iterate in the range of the created dates 
-    for dt in date_range(date_min, date_max):
-        #Add only the year values. 
-        year_list.append((dt.strftime("%Y")))
-        #Add only the month values 
-        month_list.append((dt.strftime("%m")))
-        #Add only the values for the day 
-        day_list.append((dt.strftime("%d")))
-        #Add only the values for the hour
-        hour_list.append((dt.strftime("%H:%M")))
-    #Update the dictionary and add the total dates without repetition
-    date_dic.update({
-            'year' : sorted(set(year_list)),
-            'month' : sorted(set(month_list)),
-            'day' : sorted(set(day_list)),
-            'hour':sorted(list(hours))
+def temperature_precipitation_api(
+    date_min: date, 
+    date_max: date,
+    hours: List
+) -> Tuple[xr.Dataset, Dict]:
+    """
+    Function that fetches temperature and precipitation data from the API.
+    """
+    # Create the dictionary to store the dates.
+    date_dic = {}
+    year_list = []
+    month_list = []
+    day_list = []
+    hour_list = []
 
-        })
+    # Iterate in the range of the created dates.
+    for dt in date_range(date_min, date_max):
+        # Years. 
+        year_list.append((dt.strftime("%Y")))
+        # Months. 
+        month_list.append((dt.strftime("%m")))
+        # Days. 
+        day_list.append((dt.strftime("%d")))
+        # Hours.
+        hour_list.append((dt.strftime("%H:%M")))
+
+    # Add the total dates without repetition.
+    date_dic.update({
+        'year': sorted(set(year_list)),
+        'month': sorted(set(month_list)),
+        'day': sorted(set(day_list)),
+        'hour': sorted(list(hours))
+    })
     
-    #start the API to collect data
-    #REMINDER: IT IS IMPORTANT TO HAVE THE .cdsapirc FILE FOR THE API TO WORK
+    # Call the API to collect data.
+    # MUST HAVE THE .cdsapirc FILE.
     c = cdsapi.Client()
 
     #The api is sent to be called with the values we want.
@@ -725,32 +743,51 @@ def temperature_precipitation_api(date_min, date_max,hours):
         'reanalysis-era5-single-levels',
         {
             'product_type': 'reanalysis',
-            'variable': [
-                'soil_temperature_level_1', 'total_precipitation',
-            ],
-            'year': date_dic['year']
-            ,
-            'month': date_dic['month']
-            ,
-            'day': date_dic['day']
-            ,
-            'time': date_dic['hour']
-            ,
-            'area': [
-                
-                38.1445082027146, -97.72654627101196, 38.142173460759004,
-                -97.72096882266754,
-            ],
+            'variable': ['2m_temperature', 'total_precipitation',],
+            'year': date_dic['year'],
+            'month': date_dic['month'],
+            'day': date_dic['day'],
+            'time': date_dic['hour'],
+            'area': [38.1445082027146, -97.72654627101196, 38.142173460759004, -97.72096882266754,],
             'format': 'netcdf',
         },
-        'download.nc')
-    #The API throws our data collection (temperature and precipitation) and we read it into data_tp.
-    data_tp= xr.open_dataset('download.nc')
-    return data_tp,date_dic
+        'dataTemperatureCurrent.nc'
+    )
+    # API payload. 
+    data_tp = xr.open_dataset('dataTemperatureCurrent.nc')
+    return data_tp, date_dic
 
-def values_temp_precip(dict_data):
-    #Obtienes un numpy array de los datos de temperatura 
-    data_precipitation= np.array(dict_data['tp'])
-    #Obtienes un numpy array de los datos de precipitación
-    data_temperature=np.array(dict_data['stl1'])
-    return (data_precipitation, data_temperature)
+def values_temp_precip(
+    dict_data: Dict
+) -> Tuple[List, List]:
+    # Temperature. 
+    data_precipitation = np.array(dict_data['tp'])
+    # Precipitation.
+    data_temperature = np.array(dict_data['t2m'])
+    return data_precipitation, data_temperature
+
+def future_temperature_values(
+    lat: float,
+    lon: float
+)-> Tuple[np.ndarray, np.ndarray]:
+    # Load the dataset for future temperature.
+    data_temperature_future = xr.open_dataset('dataTemperatureFuture.nc')
+    
+    # Lat and lon values.
+    lat_global=np.array(data_temperature_future.lat)
+    lon_global=np.array(data_temperature_future.lon)
+    
+    # Location similar to the given (lat, lon).
+    dif_lat = (np.absolute(lat_global-lat))
+    dif_lon = (np.absolute(lon_global-lon))
+    location_lat = dif_lat.argmin()
+    location_lon = dif_lon.argmin()
+    
+    # Temperature for the retrieve (lat,lon)
+    temperature_future = data_temperature_future.tas.isel(lat=location_lat,lon=location_lon)
+    
+    # Separete the data for years.
+    temperature_aprox_2022 = np.array(temperature_future[0:365])
+    temperature_aprox_2023 = np.array(temperature_future[365:])
+    
+    return temperature_aprox_2022, temperature_aprox_2023
