@@ -72,6 +72,7 @@ These methods consist of counting leaves in order to know the age of the corn. D
  - **Emergence**.Time when seeds have been sprouted.
  - **Senescence**.When the crop reaches adulthood; starts to turn brown.
  - **Harvest**.When the field is harvested.
+ 
 Source [De Castro *et al*](https://www.mdpi.com/2072-4292/10/11/1745)
 
 ## What has been done?
