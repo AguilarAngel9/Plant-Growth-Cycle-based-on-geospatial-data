@@ -65,17 +65,14 @@ Source: [Craufurd and Wheeler](https://pubmed.ncbi.nlm.nih.gov/19505929/#:~:text
 
 
 ## Growth phases
-At the moment of having a crop we have to analyze its growth through the phases of growth that it has. These phases are considered already once the seed is sown, that is, already when the plant was born / transplanted in the land of interest. We have that the growth phases are divided into three: Rapid growth, Hardening and Establishment phase.
+We must first define the growth stages of the maize crop we are analysing. There are several methods for the identification of the stages in which two methods stand out The ''collar'' and The ''droopy leaf'' method Source: [Heidi Reed](https://extension.psu.edu/corn-growth-stages#:~:text=The%20two%20phases%20of%20corn,every%203%20to%204%20days%%20.)
 
-- **Establishment phase**. Duration of 14 to 21 days to germinate and 4 to 8 weeks of initial growth. It is where the seed is just planted and is expected to have the first sprout, where we first ensure that the roots develop properly in case of being in a container and then be transplanted.
-- **Rapid growth**. Varies according to the crop and the conditions it goes around 8 to 20 weeks. As it indicates, the plants (buds) grow in a very fast way, this from nutrients or chemicals applied.
-- **Hardening**. 1 to 4 months depending on the crop. This is where the energy of the plant is focused on the growth of the stem and roots so that it has a firm foundation and has a better chance of survival. In this phase the plants are prepared to withstand different conditions (withstand stress).
 
-TO DO: Merge our stages with the ones used in the company.
-
-Besides this, it is important to consider the factors of irrigation, fertilization, spraying and temperature that the crop is receiving.
-
-Source [Fuentes de ortiz]()
+These methods consist of counting leaves in order to know the age of the corn. Due to the quality and size of the satellite photos it is very difficult to count the number of leaves of the corn, so to define its growth phases the area of interest for the analysis are:
+ - **Emergence**.Time when seeds have been sprouted.
+ - **Senescence**.When the crop reaches adulthood; starts to turn brown.
+ - **Harvest**.When the field is harvested.
+Source [De Castro *et al*](https://www.mdpi.com/2072-4292/10/11/1745)
 
 ## What has been done?
 
@@ -105,12 +102,30 @@ Most existing strategies address the problem of green identification under the a
 
 Source [Montalvo *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0957417412008895)
 
-Papers to read: 
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921004257
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0925231222003691
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169922002320
-- https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169918307166
+### Identification of cash crop diseases using automatic image segmentation algorithm and deep learning with expanded dataset
+
+Early identification of diseases and pests in a field is vital in the production of any crop. This is because late detection could mean that a large part of the crop has been infected which reduces the quality of the crop. This paper presents a more efficient alternative to GrabCut used for image segmentation. This alternative is the AISA algorithm which preprocesses the images at a lower time cost. In addition, a CNN was used for deep learning; where it is trained with public data from PlantVillage (Plant disease database). Finally, a first approach to the use of smartphones is presented so that with their camera they are able to monitor the crop, allowing people with fields to reduce costs and make these tools more accessible. Overall the model was 84.83% accurate in identifying crop diseases.
+
+Source [Xiong *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169920300284)
+
+### Crop disease identification and interpretation method based on multimodal deep learning
+This article deals with the identification of common invasive diseases in tomato and cucumber. A multimodal data analysis is presented in which the literature is examined and what it says about the diseases in order to find a correlation between the image and the text. Afterwards, the identification analysis was made to be reliable, i.e. the image identification learning was effective. Finally, an "image-text" disease identification model based on the ITK-Net model is presented. The model presented achieved an accuracy of 99.63%, 99%, 99.07% and 99.78% depending on the database used. In this way, the analysis for the identification of diseases is becoming more and more complete.
+
+Source [Zhou *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169921004257)
+### Analysis of clustering methods for crop type mapping using satellite imagery
+The objective of this article was to compare algorithms in order to see which algorithm is more efficient when trained with a specific crop to calculate NDVI values and, given an unknown crop, to give a good result. For this purpose, 4 algorithms were compared in which 5 different crops and 26 datasets with more than 45000 plots were analysed. With these plots we searched for the best clustering algorithms for all types of crops. Where the best option varies depending on the distances of one crop from another in order to make a comparison. In this way they were classified as follows: Manhattan for the DIANA and the PAM, Euclidean and Manhattan for the Spectral and Manhattan and Minkowski for the Agglomerative clustering methods.
+
+Source [Rivera *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0925231222003691)
+
+### Deep Learning model of sequential image classifier for crop disease detection in plantain tree cultivation 
+This paper presents a Deep Learning Model aimed at identifying the different diseases of Plantain tree such as Black Sigatoka/Yellow sigatoka, Panama, Bunchy top, Moko, chlorosis, etc. in Tamil Nadu situated in the Southern part of India. This is done by combining . Convolutional Neural Networks (CNN) and Recurrent Neural Network (RNN) which is called as G-Recurrent Convolutional Neural Network (G-RecConNNN) which reduces the pre-processing of the data making it more efficient.
+
+Source [Nandhini *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169922002320)
+
+### Prediction of cotton lint yield from phenology of crop indices using artificial neural networks
+
+In this work, remote sensing is used to determine the colour of cotton in a field. We analysed the growth stages of 2013 and 2014 where the information from the bands (Visible and NearInfrared (NIR)) was obtained from Landsat 8, calculating the vegetation indices (NDVI, GNDVI).  Using ANN, an error of 8% was obtained with values already normalised.
+Source [Haghverdi *et al*](https://0-www-sciencedirect-com.biblioteca-ils.tec.mx/science/article/pii/S0168169918307166)
 
 ## The project as Climate Ai
 Climate AI currently has solutions available to its four main types of customers: *Processors and packers*, *Seed input and chemical companies*, *Agriculture Finance* and *Retailers, Co-ops, Crop Advisors*. Some of these products are mainly focused on predictions of the input of the crops, identification of optimal location for selected crops and forecasting of prices and demand of the product. Nevertheless, we identified that just one handles the plants life cycle and, as we believe, cares only about annual crops. 
